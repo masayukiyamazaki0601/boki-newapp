@@ -876,31 +876,38 @@ const renderQuiz = () => {
       state.selectedAnswer = idx;
       
       const checkBtn = document.getElementById('quiz-check-btn');
-      checkBtn.disabled = false;
-      checkBtn.classList.remove('bg-gray-200', 'text-gray-400', 'dark:bg-gray-800', 'dark:text-gray-500', 'cursor-not-allowed');
-      checkBtn.classList.add('text-white');
-      checkBtn.style.backgroundColor = themeHex;
+      if (checkBtn) {
+        checkBtn.disabled = false;
+        checkBtn.classList.remove('bg-gray-200', 'text-gray-400', 'dark:bg-gray-800', 'dark:text-gray-500', 'cursor-not-allowed');
+        checkBtn.classList.add('text-white');
+        checkBtn.style.backgroundColor = themeHex;
+      }
     });
     
     choicesContainer.appendChild(button);
   });
   
-  document.getElementById('quiz-check-btn').addEventListener('click', checkAnswer);
-  document.getElementById('quiz-skip-btn').addEventListener('click', () => {
-    state.firstTimeWrongCount++;
-    state.activeQuestions.push({ ...question });
-    
-    if (state.currentService !== 'boki_tutorial') {
-      state.hearts--;
-      syncHeader();
-    }
-    
-    if (state.hearts <= 0 && state.currentService !== 'boki_tutorial') {
-      showView('dashboard');
-    } else {
-      nextQuestion();
-    }
-  });
+  const checkBtn = document.getElementById('quiz-check-btn');
+  if (checkBtn) checkBtn.addEventListener('click', checkAnswer);
+  
+  const skipBtn = document.getElementById('quiz-skip-btn');
+  if (skipBtn) {
+    skipBtn.addEventListener('click', () => {
+      state.firstTimeWrongCount++;
+      state.activeQuestions.push({ ...question });
+      
+      if (state.currentService !== 'boki_tutorial') {
+        state.hearts--;
+        syncHeader();
+      }
+      
+      if (state.hearts <= 0 && state.currentService !== 'boki_tutorial') {
+        showView('dashboard');
+      } else {
+        nextQuestion();
+      }
+    });
+  }
 };
 
 // Check Answer Logic
@@ -1162,42 +1169,66 @@ const triggerConfetti = () => {
 // Initialization
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-  initTheme();
-  
-  const themeBtn = document.getElementById('theme-toggle-btn');
-  if (themeBtn) {
-    themeBtn.addEventListener('click', toggleTheme);
-  }
-
-  // Bind Static Navigation
-  const headerLogo = document.getElementById('header-logo');
-  if (headerLogo) {
-    headerLogo.addEventListener('click', () => {
-      showView('portal');
-    });
-  }
-
-  document.getElementById('dash-start-btn').addEventListener('click', () => {
-    showView('quiz');
-  });
-  
-  document.getElementById('dash-back-btn').addEventListener('click', () => {
-    if (state.currentService === 'boki_shiwake') {
-      showView('map');
-    } else {
-      showView('portal');
+  try {
+    initTheme();
+    
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', toggleTheme);
     }
-  });
 
-  // ロードマップ画面の閉じるボタン
-  document.getElementById('map-back-btn').addEventListener('click', () => {
+    // Bind Static Navigation
+    const headerLogo = document.getElementById('header-logo');
+    if (headerLogo) {
+      headerLogo.addEventListener('click', () => {
+        showView('portal');
+      });
+    }
+
+    const startBtn = document.getElementById('dash-start-btn');
+    if (startBtn) {
+      startBtn.addEventListener('click', () => {
+        showView('quiz');
+      });
+    }
+    
+    const backBtn = document.getElementById('dash-back-btn');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        if (state.currentService === 'boki_shiwake') {
+          showView('map');
+        } else {
+          showView('portal');
+        }
+      });
+    }
+
+    // ロードマップ画面の閉じるボタン
+    const mapBackBtn = document.getElementById('map-back-btn');
+    if (mapBackBtn) {
+      mapBackBtn.addEventListener('click', () => {
+        showView('portal');
+      });
+    }
+
+    // レベル詳細ダイアログの閉じるボタン
+    const dialogCloseBtn = document.getElementById('dialog-close-btn');
+    if (dialogCloseBtn) {
+      dialogCloseBtn.addEventListener('click', () => {
+        const dialog = document.getElementById('map-level-dialog');
+        if (dialog) dialog.classList.add('hidden');
+      });
+    }
+    
     showView('portal');
-  });
-
-  // レベル詳細ダイアログの閉じるボタン
-  document.getElementById('dialog-close-btn').addEventListener('click', () => {
-    document.getElementById('map-level-dialog').classList.add('hidden');
-  });
-  
-  showView('portal');
+  } catch (err) {
+    const debugDiv = document.createElement('div');
+    debugDiv.className = 'fixed top-0 left-0 right-0 bg-red-600 text-white p-4 font-mono text-xs z-50 overflow-auto max-h-[50vh] shadow-2xl';
+    debugDiv.innerHTML = `
+      <div class="font-bold text-sm mb-1">⚠️ Runtime Error Detected:</div>
+      <pre class="whitespace-pre-wrap">${err.stack || err.message || err}</pre>
+    `;
+    document.body.appendChild(debugDiv);
+    console.error('Qlearn Init Error:', err);
+  }
 });
