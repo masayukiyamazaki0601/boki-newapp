@@ -2034,8 +2034,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const headerLogo = document.getElementById('header-logo');
     if (headerLogo) {
+      let clickCount = 0;
+      let clickTimer = null;
       headerLogo.addEventListener('click', () => {
-        showView('portal');
+        clickCount++;
+        clearTimeout(clickTimer);
+        clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
+
+        if (clickCount >= 5) {
+          // 5回連続クリックで全レベルをアンロック
+          roadmapLevels.forEach(lvl => {
+            state.roadmapProgress[lvl.id] = { unlocked: true, completed: false };
+          });
+          saveRoadmapProgress();
+          clickCount = 0;
+          
+          // トースト表示でお知らせ
+          const toast = document.getElementById('level-up-toast');
+          if (toast) {
+            toast.querySelector('h4').innerText = 'DEBUG UNLOCK';
+            toast.querySelector('p').innerText = 'すべてのレベルがアンロックされました！';
+            toast.classList.remove('hidden');
+            setTimeout(() => { toast.classList.add('hidden'); }, 3000);
+          }
+          
+          // マップ再描画
+          if (state.currentView === 'map') {
+            renderMap();
+          }
+        } else {
+          showView('portal');
+        }
       });
     }
 
