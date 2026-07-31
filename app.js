@@ -748,12 +748,12 @@ const roadmapLevels = [
         }
       },
       {
-        text: '【現金過不足の決算整理】決算において、現金の帳簿残高（730,000円）より実際有高が34,000円不足していることが判明した。このうち16,000円は通信費の記帳漏れであり、残額は原因不明のため雑損として処理する。正しい仕訳を選びなさい。',
+        text: '【現金過不足の決算整理】決算において、現金の帳簿残高（1,000円）より実際有高が300円不足していることが判明した。このうち100円は通信費の記帳漏れであり、残額は原因不明のため雑損として処理する。正しい仕訳を選びなさい。',
         choices: [
-          '(借) 通信費 16,000 , 雑損 18,000 / (貸) 現金 34,000',
-          '(借) 通信費 16,000 , 現金過不足 18,000 / (貸) 現金 34,000',
-          '(借) 現金 34,000 / (貸) 通信費 16,000 , 雑益 18,000',
-          '(借) 通信費 16,000 , 雑益 18,000 / (貸) 現金 34,000'
+          '(借) 通信費 100 , 雑損 200 / (貸) 現金 300',
+          '(借) 通信費 100 , 現金過不足 200 / (貸) 現金 300',
+          '(借) 現金 300 / (貸) 通信費 100 , 雑益 200',
+          '(借) 通信費 100 , 雑益 200 / (貸) 現金 300'
         ],
         correct: 0,
         explanation: {
@@ -762,7 +762,7 @@ const roadmapLevels = [
             <div class="space-y-3 font-sans">
               <p class="text-gray-600 dark:text-gray-300 text-xs leading-relaxed">
                 決算日に不一致が判明したため、「現金過不足」勘定は使用せず、直接関連する勘定に振り替えます。
-                実際有高に合わせて現金を<strong>34,000円減少（貸方）</strong>させ、判明した<strong>通信費 16,000円（借方・費用の発生）</strong>、および原因不明額を<strong>雑損 18,000円（借方・費用の発生）</strong>として処理します。
+                実際有高に合わせて現金を<strong>300円減少（貸方）</strong>させ、判明した<strong>通信費 100円（借方・費用の発生）</strong>、および原因不明額を<strong>雑損 200円（借方・費用の発生）</strong>として処理します。
               </p>
               <div class="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-gray-50/50 dark:bg-gray-900/30 text-xs">
                 <div class="bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 font-bold py-1 text-center text-gray-500 dark:text-gray-400">決算整理後残高試算表（一部）</div>
@@ -776,17 +776,17 @@ const roadmapLevels = [
                   </thead>
                   <tbody>
                     <tr class="border-b border-gray-200 dark:border-gray-800">
-                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">696,000</td>
+                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">700</td>
                       <td class="py-1 border-x border-gray-200 dark:border-gray-800">現金</td>
                       <td class="py-1">-</td>
                     </tr>
                     <tr class="border-b border-gray-200 dark:border-gray-800">
-                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">65,000</td>
+                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">600</td>
                       <td class="py-1 border-x border-gray-200 dark:border-gray-800">通信費</td>
                       <td class="py-1">-</td>
                     </tr>
                     <tr>
-                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">18,000</td>
+                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">200</td>
                       <td class="py-1 border-x border-gray-200 dark:border-gray-800">雑損</td>
                       <td class="py-1">-</td>
                     </tr>
