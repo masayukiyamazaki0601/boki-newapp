@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuestLearn - ゲームで学ぶ簿記3級仕訳</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            gray: {
+              950: '#0a0b10',
+              900: '#121420',
+              800: '#1b1e32',
+              700: '#2c314f',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="styles.css?v=1.0.1">
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 md:p-6">
+
+  <!-- Mobile/Tablet Container frame -->
+  <div class="w-full max-w-md md:max-w-lg min-h-screen md:min-h-[850px] md:h-[850px] md:rounded-3xl glass-panel relative flex flex-col overflow-hidden md:border border-gray-200 dark:border-gray-800 shadow-2xl">
+    
+    <!-- Top Global App Bar -->
+    <header class="p-4 border-b border-gray-200 dark:border-gray-800/80 flex items-center justify-between bg-white/40 dark:bg-gray-950/40 backdrop-blur-md sticky top-0 z-40">
+      <div id="header-logo" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+          <i data-lucide="graduation-cap" class="text-white w-4 h-4"></i>
+        </div>
+        <span class="font-bold tracking-tight text-gray-900 dark:text-white text-lg">QuestLearn</span>
+      </div>
+      
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle-btn" class="p-2 rounded-xl bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition" aria-label="Toggle theme">
+          <span id="theme-toggle-icon" class="w-5 h-5 flex items-center justify-center"></span>
+        </button>
+
+        <!-- Streak -->
+        <div class="flex items-center gap-1 bg-orange-500/10 border border-orange-500/20 px-2.5 py-1 rounded-full animate-flicker">
+          <i data-lucide="flame" class="text-orange-500 fill-orange-500 w-4 h-4"></i>
+          <span id="global-streak" class="text-orange-600 dark:text-orange-400 text-xs font-bold font-mono">5</span>
+        </div>
+        
+        <!-- Hearts / Life -->
+        <div id="global-hearts-container" class="flex items-center gap-1 bg-red-500/10 border border-red-500/20 px-2.5 py-1 rounded-full transition-all">
+          <i data-lucide="heart" class="text-red-500 fill-red-500 w-4 h-4"></i>
+          <span id="global-hearts" class="text-red-600 dark:text-red-400 text-xs font-bold font-mono">5</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN APP SCREEN BODY -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col justify-between pb-24 bg-white/20 dark:bg-transparent">
+      
+      <!-- ========================================== -->
+      <!-- 1. PORTAL SCREEN -->
+      <!-- ========================================== -->
+      <section id="portal-screen" class="app-screen space-y-6 w-full animate-fadeIn">
+        <div class="space-y-2">
+          <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">学習するクエストを選択</h2>
+          <p class="text-xs text-gray-500 dark:text-gray-400">簿記3級の最重要・仕訳問題をゲーム感覚でマスターしましょう。</p>
+        </div>
+        
+        <!-- Portal Selection Grid -->
+        <div id="portal-grid" class="grid grid-cols-1 gap-4">
+          <!-- Dynamically Rendered -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- 2. MAP SCREEN (魔導ロードマップ) -->
+      <!-- ========================================== -->
+      <section id="map-screen" class="app-screen hidden space-y-6 w-full flex-1 flex flex-col justify-between h-full">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+          <button id="map-back-btn" class="p-2 rounded-xl bg-gray-100 dark:bg-gray-900/50 hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
+          <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest font-heading">魔導ロードマップ</span>
+          <div class="w-9 h-9"></div> <!-- spacer -->
+        </div>
+
+        <!-- Scrollable Map Area -->
+        <div class="flex-1 overflow-y-auto px-2 relative min-h-[400px] py-4" style="scroll-behavior: smooth;">
+          <div id="map-scroll-container" class="relative w-full flex flex-col items-center">
+            <!-- Stages pins dynamically rendered here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- 3. DASHBOARD SCREEN -->
+      <!-- ========================================== -->
+      <section id="dashboard-screen" class="app-screen hidden space-y-6 w-full">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+          <button id="dash-back-btn" class="p-2 rounded-xl bg-gray-100 dark:bg-gray-900/50 hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
+          <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Dashboard</span>
+          <div class="w-9 h-9"></div> <!-- spacer -->
+        </div>
+        
+        <!-- Course Meta Card -->
+        <div class="glass-panel p-5 rounded-2xl border border-gray-200 dark:border-gray-800/80 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 id="dash-course-title" class="text-xl font-bold text-gray-900 dark:text-white">簿記3級 仕訳クエスト</h2>
+            <i data-lucide="award" class="text-yellow-500 dark:text-yellow-400 w-6 h-6 animate-bounce"></i>
+          </div>
+          
+          <!-- XP Progress -->
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs font-semibold text-gray-500 dark:text-gray-400">
+              <span>リーグ昇格まで</span>
+              <span id="dash-xp-count" class="font-mono">240/300 XP</span>
+            </div>
+            <div class="w-full bg-gray-200 dark:bg-gray-950/60 rounded-full h-3.5 border border-gray-300 dark:border-gray-800 overflow-hidden">
+              <div id="dash-xp-progress" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full rounded-full transition-width" style="width: 80%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Streak / Stats Grid -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="glass-panel p-4 rounded-xl text-center space-y-1">
+            <span class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider">継続日数</span>
+            <div class="flex items-center justify-center gap-1.5 text-2xl font-bold text-orange-500 dark:text-orange-400 font-mono">
+              <i data-lucide="flame" class="w-6 h-6 fill-orange-500 text-orange-500"></i>
+              <span id="dash-streak-count">5</span>日
+            </div>
+          </div>
+          <div class="glass-panel p-4 rounded-xl text-center space-y-1">
+            <span class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider">所属リーグ</span>
+            <div class="flex items-center justify-center gap-1.5 text-lg font-bold text-indigo-600 dark:text-indigo-400 font-heading">
+              <i data-lucide="shield" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
+              シルバー
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Ranking / League Panel -->
+        <div class="glass-panel p-4 rounded-xl space-y-3">
+          <div class="flex justify-between items-center text-xs font-bold text-gray-500 dark:text-gray-400">
+            <span>週次ランキング（リーグ）</span>
+            <span class="text-orange-500 dark:text-orange-400 text-[10px] uppercase">残り2日</span>
+          </div>
+          <div id="dash-league-list" class="space-y-2">
+            <!-- Dynamically Rendered -->
+          </div>
+        </div>
+
+        <!-- Action CTA -->
+        <div class="pt-2">
+          <button id="dash-start-btn" class="w-full py-4 rounded-2xl text-white font-bold text-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 neon-glow-indigo">
+            クエストを開始する
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- 4. QUIZ SCREEN -->
+      <!-- ========================================== -->
+      <section id="quiz-screen" class="app-screen hidden flex-1 flex flex-col justify-between w-full h-full">
+        <!-- Quiz Header Progress Bar -->
+        <div class="flex items-center gap-3 w-full mb-6">
+          <div class="w-full bg-gray-200 dark:bg-gray-950/60 rounded-full h-3 border border-gray-300 dark:border-gray-800 overflow-hidden">
+            <div id="quiz-progress-bar" class="bg-indigo-600 h-full transition-width" style="width: 0%"></div>
+          </div>
+          <div class="flex items-center gap-1 bg-red-500/10 px-2 py-0.5 rounded-full border border-red-500/20">
+            <i data-lucide="heart" class="text-red-500 fill-red-500 w-3 h-3"></i>
+            <span id="quiz-hearts-count" class="text-red-600 dark:text-red-400 text-xs font-bold font-mono">5</span>
+          </div>
+        </div>
+
+        <!-- Question Prompt Area -->
+        <div class="space-y-4 my-auto">
+          <div id="quiz-image-container" class="hidden text-center mb-4"></div>
+          
+          <h3 id="quiz-question-text" class="text-lg md:text-xl font-bold leading-relaxed text-gray-950 dark:text-white">
+            <!-- Question prompt will be loaded here -->
+          </h3>
+          
+          <!-- Answer Choices -->
+          <div id="quiz-choices-container" class="space-y-3 pt-4">
+            <!-- Choice Buttons will be loaded here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- 5. RESULT SCREEN -->
+      <!-- ========================================== -->
+      <section id="result-screen" class="app-screen hidden text-center space-y-6 w-full my-auto">
+        <div class="w-24 h-24 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center mx-auto shadow-xl shadow-amber-500/20">
+          <i data-lucide="trophy" class="text-black w-12 h-12"></i>
+        </div>
+        
+        <div class="space-y-2">
+          <span class="text-xs uppercase tracking-widest text-indigo-600 dark:text-indigo-400 font-semibold font-heading">Quest Completed</span>
+          <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">クエスト達成！</h2>
+          <p id="res-service-name" class="text-sm text-gray-500 dark:text-gray-400">簿記3級 仕訳クエスト</p>
+        </div>
+        
+        <!-- Summary Stats -->
+        <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+          <div class="glass-panel p-4 rounded-xl">
+            <span class="text-[10px] text-gray-500 block">スコア</span>
+            <span id="res-score" class="text-xl font-bold text-emerald-600 dark:text-emerald-400 font-mono">+20 pt</span>
+          </div>
+          <div class="glass-panel p-4 rounded-xl">
+            <span class="text-[10px] text-gray-500 block">経験値</span>
+            <span id="res-xp-count" class="text-xl font-bold text-indigo-600 dark:text-indigo-300 font-mono">+30 XP</span>
+          </div>
+        </div>
+
+        <!-- Wrong questions / review recommendation -->
+        <div id="res-review-container" class="max-w-sm mx-auto">
+          <!-- Dynamically Loaded Review trigger -->
+        </div>
+
+        <button id="res-home-btn" class="w-full max-w-xs mx-auto py-3.5 rounded-xl bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 text-gray-800 dark:text-white font-bold transition hover:bg-gray-200 dark:hover:bg-gray-800 active:scale-95">
+          ホームに戻る
+        </button>
+      </section>
+
+    </main>
+
+    <!-- Quiz Action Bar / Duolingo Style overlay -->
+    <div id="quiz-action-bar" class="hidden border-t border-gray-200 dark:border-gray-800 bg-gray-50/95 dark:bg-gray-950/85 p-4 transition-all duration-300">
+      <!-- Dynamically Rendered -->
+    </div>
+  </div>
+
+  <!-- LEVEL DETAIL DIALOG (MODAL) -->
+  <div id="map-level-dialog" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="w-full max-w-sm glass-panel p-6 rounded-3xl border border-gray-250 dark:border-gray-800 space-y-4 text-gray-900 dark:text-white">
+      <div class="flex justify-between items-start">
+        <div>
+          <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-wider font-heading">Level <span id="dialog-level-num"></span></span>
+          <h3 id="dialog-title" class="text-xl font-extrabold text-gray-900 dark:text-white mt-0.5">現金と普通預金</h3>
+        </div>
+        <button id="dialog-close-btn" class="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <p id="dialog-subtitle" class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+        すべての取引の基本となる「資産」。簿記での「現金」の定義と、銀行口座である「普通預金」のルールを解説します。
+      </p>
+
+      <!-- Tags -->
+      <div id="dialog-tags" class="flex flex-wrap gap-1.5 pt-1">
+        <!-- Loaded dynamically -->
+      </div>
+
+      <div class="pt-3 flex gap-2">
+        <a id="dialog-url-link" href="#" target="_blank" class="px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 font-semibold text-xs flex items-center justify-center gap-1 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-200">
+          <i data-lucide="book" class="w-4 h-4"></i> 解説を開く
+        </a>
+        <button id="dialog-start-btn" class="flex-1 py-3 rounded-xl text-white font-bold text-sm bg-indigo-600 hover:bg-indigo-500 transition duration-200">
+          クエスト開始
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL UP TOAST (POPUP) -->
+  <div id="level-up-toast" class="hidden fixed top-8 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 p-0.5 rounded-2xl shadow-2xl z-50 animate-bounce max-w-sm w-[90%]">
+    <div class="bg-white dark:bg-gray-950 rounded-[14px] p-4 flex items-center gap-4">
+      <div class="w-12 h-12 bg-amber-400 rounded-full flex items-center justify-center text-black font-extrabold text-xl">⚡</div>
+      <div>
+        <h4 class="font-extrabold text-gray-900 dark:text-white text-base">LEVEL UP!</h4>
+        <p class="text-xs text-gray-500 dark:text-gray-400">おめでとうございます！レベルが上昇しました。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom App JS -->
+  <script src="app.js?v=1.0.1"></script>
+</body>
+</html>
