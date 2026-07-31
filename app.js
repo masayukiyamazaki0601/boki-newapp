@@ -286,13 +286,13 @@ const generateTutorialQuestions = () => {
   return sortQuestionsBySM2(questions);
 };
 
-// 魔導ロードマップ レベルデータ定義
+// 魔導ロードマップ レベルデータ定義 (Lv0〜Lv39)
 const roadmapLevels = [
   {
     id: 'lvl_0',
     level: 0,
     title: '簿記の全体像マップ',
-    subtitle: '冒険の前に地図を手に入れよう。決算までの道のり、5つの勘定科目グループ、借方・貸方の大原則を解説します。',
+    subtitle: '決算までの道のり、5つの勘定科目グループ、借方・貸方の大原則を解説します。',
     url: 'http://localhost:3001/guides/why-boki',
     tags: ['導入', '全体像', '借方', '貸方', '決算', 'ロードマップ'],
     questions: [
@@ -302,16 +302,7 @@ const roadmapLevels = [
         correct: 0,
         explanation: {
           concept: '借方と貸方の定位置',
-          brilliantExplanation: '簿記では、帳簿の<strong>左側を「借方（かりかた）」</strong>、<strong>右側を「貸方（かしかた）」</strong>と呼びます。「り」は左にはらい、「し」は右にはらうと覚えるのが一般的です。'
-        }
-      },
-      {
-        text: '【5大要素】「建物」や「普通預金」は、簿記の5大要素のうちどれに分類されますか？',
-        choices: ['資産', '負債', '純資産', '費用'],
-        correct: 0,
-        explanation: {
-          concept: '勘定科目の分類',
-          brilliantExplanation: '「建物」や「普通預金」など、会社が所有する金銭的価値のある財産は<strong>「資産」</strong>に分類されます。'
+          brilliantExplanation: '簿記では、帳簿の<strong>左側を「借方（かりかた）」</strong>、<strong>右側を「貸方（かしかた）」</strong>と呼びます。「り」は左にはらい、「し」は右にはらうと覚えます。'
         }
       }
     ]
@@ -320,17 +311,16 @@ const roadmapLevels = [
     id: 'lvl_1',
     level: 1,
     title: '現金と普通預金',
-    subtitle: 'すべての取引の基本となる「資産」。簿記での「現金」の定義と、銀行口座である「普通預金」のルールを習得します。',
+    subtitle: 'すべての取引の基本となる「資産」。簿記での「現金」の定義と、「普通預金」のルール。',
     url: 'http://localhost:3001/guides/cash-and-deposit',
     tags: ['資産', '現金', '普通預金'],
     questions: [
       {
-        text: '【現金預入の仕訳】現金 10,000円を普通預金口座に預け入れた。正しい仕訳を選びなさい。',
+        text: '【現金預入】現金 10,000円を普通預金口座に預け入れた。正しい仕訳は？',
         choices: [
           '(借) 普通預金 10,000 / (貸) 現金 10,000',
           '(借) 現金 10,000 / (貸) 普通預金 10,000',
-          '(借) 当座預金 10,000 / (貸) 現金 10,000',
-          '(借) 普通預金 10,000 / (貸) 売上 10,000'
+          '(借) 当座預金 10,000 / (貸) 現金 10,000'
         ],
         correct: 0,
         explanation: {
@@ -344,22 +334,20 @@ const roadmapLevels = [
     id: 'lvl_2',
     level: 2,
     title: '小口現金の泉',
-    subtitle: '社内の小銭と細かい経費を管理する仕組み。日々の細かな支払いを効率よく管理する『小口現金』の流れをマスターします。',
+    subtitle: '細かい経費を管理する『小口現金（インプレスト・システム）』の流れをマスターします。',
     url: 'http://localhost:3001/guides/petty-cash',
-    tags: ['資産', '小口現金', '当座預金', '費用', '旅費交通費', '消耗品費'],
+    tags: ['資産', '小口現金', '旅費交通費'],
     questions: [
       {
-        text: '【小口現金の支払報告】用度係から、旅費交通費 3,000円を小口現金から支払ったとの報告を受けた。正しい仕訳を選びなさい。',
+        text: '【支払報告】用度係から、旅費交通費 3,000円を小口現金から支払ったとの報告を受けた。',
         choices: [
           '(借) 旅費交通費 3,000 / (貸) 小口現金 3,000',
-          '(借) 小口現金 3,000 / (貸) 旅費交通費 3,000',
-          '(借) 旅費交通費 3,000 / (貸) 当座預金 3,000',
-          '(借) 消耗品費 3,000 / (貸) 小口現金 3,000'
+          '(借) 小口現金 3,000 / (貸) 旅費交通費 3,000'
         ],
         correct: 0,
         explanation: {
-          concept: '小口現金の支払処理',
-          brilliantExplanation: '旅費交通費（費用）が発生したため借方に、報告時点では小口現金（資産）が減少したとして貸方に小口現金を記録します。'
+          concept: '小口現金の支払',
+          brilliantExplanation: '旅費交通費（費用）の発生を借方に、小口現金（資産）の減少を貸方に記録します。'
         }
       }
     ]
@@ -368,22 +356,20 @@ const roadmapLevels = [
     id: 'lvl_3',
     level: 3,
     title: '売上の平原',
-    subtitle: '仕入（費用の発生）と売上（収益の発生）の基本ルールと、送料（諸掛り）の処理をマスターします。',
+    subtitle: '仕入（費用の発生）と売上（収益の発生）の基本ルールと、発送費・諸掛りの処理。',
     url: 'http://localhost:3001/guides/sales-and-purchases',
     tags: ['費用', '収益', '仕入', '売上', '諸掛り'],
     questions: [
       {
-        text: '【仕入諸掛り】商品 50,000円を仕入れ、代金は掛けとした。なお、当店負担の発送運賃 3,000円は現金で支払った。',
+        text: '【仕入諸掛り】商品 50,000円を仕入れ、代金は掛けとした。なお当店負担の引取運賃 3,000円は現金で支払った。',
         choices: [
           '(借) 仕入 53,000 / (貸) 買掛金 50,000 , 現金 3,000',
-          '(借) 仕入 50,000 , 発送費 3,000 / (貸) 買掛金 50,000 , 現金 3,000',
-          '(借) 仕入 50,000 / (貸) 買掛金 50,000',
-          '(借) 仕入 53,000 / (貸) 買掛金 53,000'
+          '(借) 仕入 50,000 , 発送費 3,000 / (貸) 買掛金 50,000 , 現金 3,000'
         ],
         correct: 0,
         explanation: {
           concept: '仕入諸掛り（当店負担）',
-          brilliantExplanation: '仕入時に発生した当店負担 of 諸掛り（発送運賃など）は、<strong>仕入原価（本体価格）に含める</strong>のがルールです。したがって仕入勘定は 53,000円になります。'
+          brilliantExplanation: '当店負担の仕入諸掛り（引取運賃など）は、<strong>仕入原価（仕入）に含める</strong>のがルールです。'
         }
       }
     ]
@@ -392,22 +378,20 @@ const roadmapLevels = [
     id: 'lvl_4',
     level: 4,
     title: '掛取引の街道',
-    subtitle: '後払い（掛け）の仕組み。お金を受け取る権利である「売掛金」と、支払う義務である「買掛金」の増減仕訳をマスターします。',
+    subtitle: '後払い（掛け）の仕組み。権利である「売掛金」と、義務である「買掛金」の増減仕訳。',
     url: 'http://localhost:3001/guides/accounts-receivable-payable',
     tags: ['資産', '負債', '売掛金', '買掛金'],
     questions: [
       {
-        text: '【売掛金の回収】かねて掛けで売り上げていた商品の代金 20,000円が普通預金口座に振り込まれた。',
+        text: '【売掛金の回収】売掛金 20,000円が普通預金口座に振り込まれた。',
         choices: [
           '(借) 普通預金 20,000 / (貸) 売掛金 20,000',
-          '(借) 売掛金 20,000 / (貸) 普通預金 20,000',
-          '(借) 普通預金 20,000 / (貸) 売上 20,000',
-          '(借) 売掛金 20,000 / (貸) 売上 20,000'
+          '(借) 売掛金 20,000 / (貸) 普通預金 20,000'
         ],
         correct: 0,
         explanation: {
           concept: '売掛金の減少',
-          brilliantExplanation: '普通預金（資産）が増加したため借方に、売掛金（資産）という権利が回収されて消滅したため貸方に記録します。'
+          brilliantExplanation: '普通預金（資産の増加）を借方に、回収された売掛金（資産の減少）を貸方に記録します。'
         }
       }
     ]
@@ -415,23 +399,21 @@ const roadmapLevels = [
   {
     id: 'lvl_5',
     level: 5,
-    title: '電子マネー of 街',
-    subtitle: 'クレジットカード売上と信販未収金のルール。支払手数料の差し引き仕訳テクニックをマスターします。',
+    title: '電子マネーの街',
+    subtitle: 'クレジットカード売上と、差し引かれる『支払手数料』の仕訳テクニック。',
     url: 'http://localhost:3001/guides/credit-card-sales',
-    tags: ['資産', '費用', '信販未収金', '支払手数料', 'クレジットカード'],
+    tags: ['資産', '費用', 'クレジット売掛金', '支払手数料'],
     questions: [
       {
-        text: '【クレジットカード売上】商品 10,000円をクレジットカード決済で売り上げた。信販会社への手数料（2%）を販売時に計上する。',
+        text: '【クレジット売上】商品 10,000円をカード決済で売り上げ、手数料（2%）を販売時に計上する。',
         choices: [
           '(借) クレジット売掛金 9,800 , 支払手数料 200 / (貸) 売上 10,000',
-          '(借) クレジット売掛金 10,000 / (貸) 売上 10,000',
-          '(借) 売掛金 9,800 , 支払手数料 200 / (貸) 売上 10,000',
-          '(借) クレジット売掛金 9,800 / (貸) 売上 9,800'
+          '(借) クレジット売掛金 10,000 / (貸) 売上 10,000'
         ],
         correct: 0,
         explanation: {
-          concept: 'クレジットカード売上（信販未収金）',
-          brilliantExplanation: '信販会社に請求できる金額は手数料を引いた 9,800円のため「クレジット売掛金」を借方に、引かれた 200円は「支払手数料（費用）」として借方に記録します。'
+          concept: 'クレジットカード売上',
+          brilliantExplanation: '代金から差し引かれる手数料を「支払手数料（費用）」として借方に計上します。'
         }
       }
     ]
@@ -440,22 +422,20 @@ const roadmapLevels = [
     id: 'lvl_6',
     level: 6,
     title: '返品の港',
-    subtitle: '商品の返品と送料。不良品を返した・返された時の『返品』の逆仕訳ルールをマスターします。',
+    subtitle: '不良品を返した・返された時の『返品（売上戻り・仕入戻し）』の逆仕訳ルール。',
     url: 'http://localhost:3001/guides/returns-and-shipping',
-    tags: ['費用', '収益', '売上', '仕入', '売掛金', '買掛金', '返品'],
+    tags: ['売上', '仕入', '返品'],
     questions: [
       {
-        text: '【売上返品】以前に掛けで売り上げていた商品 5,000円分が不良品のため返品され、売掛金から相殺した。',
+        text: '【売上返品】売り上げた商品 5,000円分が返品され、売掛金から相殺した。',
         choices: [
           '(借) 売上 5,000 / (貸) 売掛金 5,000',
-          '(借) 売掛金 5,000 / (貸) 売上 5,000',
-          '(借) 仕入 5,000 / (貸) 買掛金 5,000',
-          '(借) 売上 5,000 / (貸) 現金 5,000'
+          '(借) 売掛金 5,000 / (貸) 売上 5,000'
         ],
         correct: 0,
         explanation: {
-          concept: '売上の返品処理',
-          brilliantExplanation: '返品された場合は、当初の売上仕訳を逆にする「逆仕訳」を行います。売上（収益）のマイナスとして借方に売上を、売掛金（資産）の減少として貸方に売掛金を記録します。'
+          concept: '売上返品',
+          brilliantExplanation: '売上の取り消し（収益の減少）として借方に売上を、売掛金（資産の減少）として貸方に売掛金を記録します。'
         }
       }
     ]
@@ -464,22 +444,20 @@ const roadmapLevels = [
     id: 'lvl_7',
     level: 7,
     title: '値引の市場',
-    subtitle: '売上値引・仕入値引。品質不良・数量不足により代金を減額する際の仕訳をマスターします。',
+    subtitle: '品質不良などによる代金の減額『値引』の仕訳ルール。',
     url: 'http://localhost:3001/guides/sales-purchase-returns',
-    tags: ['費用', '収益', '売上値引', '仕入値引', '売上', '仕入', '返品'],
+    tags: ['売上値引', '仕入値引', '値引'],
     questions: [
       {
-        text: '【仕入値引】掛けで仕入れていた商品に汚損があったため、3,000円の値引きを受け、買掛金から差し引いた。',
+        text: '【仕入値引】仕入れた商品に汚損があったため、3,000円の値引きを受け、買掛金と相殺した。',
         choices: [
           '(借) 買掛金 3,000 / (貸) 仕入 3,000',
-          '(借) 仕入 3,000 / (貸) 買掛金 3,000',
-          '(借) 買掛金 3,000 / (貸) 売上 3,000',
-          '(借) 雑益 3,000 / (貸) 買掛金 3,000'
+          '(借) 仕入 3,000 / (貸) 買掛金 3,000'
         ],
         correct: 0,
         explanation: {
-          concept: '仕入値引の仕訳',
-          brilliantExplanation: '仕入れた商品を値引きされた場合は、仕入高を直接減額します。買掛金（負債）の減少を借方に、仕入（費用）の減少を貸方に記録します。'
+          concept: '仕入値引',
+          brilliantExplanation: '買掛金（負債の減少）を借方に、仕入高（費用の減少）を貸方に記録して仕入を直接減額します。'
         }
       }
     ]
@@ -488,22 +466,20 @@ const roadmapLevels = [
     id: 'lvl_8',
     level: 8,
     title: '貸借の橋',
-    subtitle: 'お金の貸し借りと利息の計算。約束手形を担保とする場合や未払・未収利息の計上まで網羅します。',
+    subtitle: 'お金の貸し借りと利息（支払利息・受取利息）の計算および手形を用いた取引。',
     url: 'http://localhost:3001/guides/loans-and-interest',
-    tags: ['貸付金', '借入金', '手形貸付金', '手形借入金', '支払利息', '受取利息', '利息計算'],
+    tags: ['貸付金', '借入金', '手形借入金'],
     questions: [
       {
-        text: '【手形借入】取引先から 100,000円を借り入れ、同店振り出しの約束手形を受け取った。代金は当座預金に入金された。',
+        text: '【手形借入】100,000円を借り入れ、担保として約束手形を振り出し、当座預金に入金された。',
         choices: [
           '(借) 当座預金 100,000 / (貸) 手形借入金 100,000',
-          '(借) 当座預金 100,000 / (貸) 借入金 100,000',
-          '(借) 当座預金 100,000 / (貸) 支払手形 100,000',
-          '(借) 受取手形 100,000 / (貸) 手形借入金 100,000'
+          '(借) 当座預金 100,000 / (貸) 支払手形 100,000'
         ],
         correct: 0,
         explanation: {
           concept: '手形借入金',
-          brilliantExplanation: 'お金の貸し借りの際に約束手形を担保として受け取った（または振り出した）場合は、借入金ではなく<strong>「手形借入金（負債）」</strong>または「手形貸付金（資産）」を使用します。'
+          brilliantExplanation: '借入にあたって手形を振り出した場合は「支払手形」ではなく「手形借入金（負債）」を使用します。'
         }
       }
     ]
@@ -512,22 +488,20 @@ const roadmapLevels = [
     id: 'lvl_9',
     level: 9,
     title: '手形の関所',
-    subtitle: '約束手形の振出と受取の決済ルール。他人に譲渡する『裏書譲渡』まで完全習得します。',
+    subtitle: '約束手形の振出（支払手形）と受取（受取手形）、および裏書譲渡の決済処理。',
     url: 'http://localhost:3001/guides/bills-receivable-payable',
-    tags: ['資産', '負債', '受取手形', '支払手形', '約束手形', '裏書'],
+    tags: ['受取手形', '支払手形', '裏書譲渡'],
     questions: [
       {
-        text: '【手形の裏書譲渡】買掛金 30,000円の支払いのために、かねて受け取っていた取引先振出の約束手形を裏書譲渡した。',
+        text: '【裏書譲渡】買掛金 30,000円の支払いのために、手持ちの取引先振出の約束手形を裏書譲渡した。',
         choices: [
           '(借) 買掛金 30,000 / (貸) 受取手形 30,000',
-          '(借) 買掛金 30,000 / (貸) 支払手形 30,000',
-          '(借) 受取手形 30,000 / (貸) 買掛金 30,000',
-          '(借) 買掛金 30,000 / (貸) 売上 30,000'
+          '(借) 買掛金 30,000 / (貸) 支払手形 30,000'
         ],
         correct: 0,
         explanation: {
           concept: '手形の裏書譲渡',
-          brilliantExplanation: '他人が振り出した手形を持っている（受取手形・資産）を、他人の支払いに充てるために譲り渡す行為を「裏書譲渡」と言います。手持ちの「受取手形（資産）」が減少するため貸方に記録します。'
+          brilliantExplanation: '手持ちの約束手形を他人に引き渡すため、受取手形（資産）の減少として貸方に記録します。'
         }
       }
     ]
@@ -536,22 +510,20 @@ const roadmapLevels = [
     id: 'lvl_10',
     level: 10,
     title: '電子債権の塔',
-    subtitle: '電子記録債権と電子記録債務のルール。売掛金や買掛金からの「振り替え（切り替え）」の仕訳をマスターします。',
+    subtitle: 'ネット時代の決済『電子記録債権』『電子記録債務』の発生と消滅。',
     url: 'http://localhost:3001/guides/electronically-recorded-monetary-claims',
-    tags: ['資産', '負債', '電子記録債権', '電子記録債務', '振り替え'],
+    tags: ['電子記録債権', '電子記録債務'],
     questions: [
       {
         text: '【電子債権への振替】売掛金 40,000円について、発生記録の請求を行い、電子記録債権となった。',
         choices: [
           '(借) 電子記録債権 40,000 / (貸) 売掛金 40,000',
-          '(借) 売掛金 40,000 / (貸) 電子記録債権 40,000',
-          '(借) 電子記録債務 40,000 / (貸) 売掛金 40,000',
-          '(借) 電子記録債権 40,000 / (貸) 売上 40,000'
+          '(借) 売掛金 40,000 / (貸) 電子記録債権 40,000'
         ],
         correct: 0,
         explanation: {
           concept: '電子記録債権の発生',
-          brilliantExplanation: '売掛金が電子記録債権に切り替わったため、電子記録債権（資産）の増加を借方に、売掛金（資産）の減少を貸方に記録します。'
+          brilliantExplanation: '売掛金が電子記録債権へ振り替えられたため、電子記録債権（資産）の増加を借方、売掛金（資産）の減少を貸方に書きます。'
         }
       }
     ]
@@ -560,22 +532,20 @@ const roadmapLevels = [
     id: 'lvl_11',
     level: 11,
     title: '固定資産の工場',
-    subtitle: '建物・備品・土地の購入と付随費用のルール。後払い時の『未払金』の区別を完全習得します。',
+    subtitle: '固定資産（建物・土地・備品）の取得と付随費用、後払い時の「未払金」の区別。',
     url: 'http://localhost:3001/guides/fixed-assets-purchase',
-    tags: ['資産', '負債', '建物', '備品', '土地', '未払金', '付随費用'],
+    tags: ['建物', '備品', '未払金', '付随費用'],
     questions: [
       {
-        text: '【備品購入と付随費用】事務用デスク 50,000円を購入し、代金は翌月払いとした。なお、引取運賃 2,000円は現金で支払った。',
+        text: '【備品購入】備品 50,000円を購入し、代金は翌月払いとした。引取運賃 2,000円は現金で支払った。',
         choices: [
           '(借) 備品 52,000 / (貸) 未払金 50,000 , 現金 2,000',
-          '(借) 備品 52,000 / (貸) 買掛金 50,000 , 現金 2,000',
-          '(借) 備品 50,000 , 支払手数料 2,000 / (貸) 未払金 50,000 , 現金 2,000',
-          '(借) 備品 52,000 / (貸) 未払金 52,000'
+          '(借) 備品 52,000 / (貸) 買掛金 50,000 , 現金 2,000'
         ],
         correct: 0,
         explanation: {
-          concept: '固定資産の取得原価と未払金',
-          brilliantExplanation: '固定資産の購入にかかった付随費用（引取運賃など）は、<strong>固定資産の本体代金に含めます</strong>。また、商品以外の購入に対する後払いは買掛金ではなく<strong>「未払金（負債）」</strong>を使います。'
+          concept: '取得原価と未払金',
+          brilliantExplanation: '固定資産の付随費用は取得原価に含めます。また、商品以外の購入代金未払いは「未払金（負債）」となります。'
         }
       }
     ]
@@ -584,22 +554,64 @@ const roadmapLevels = [
     id: 'lvl_12',
     level: 12,
     title: '株式会社の財務サイクル',
-    subtitle: '資本金から配当までの一連の流れ。株式会社の会計を「出資→稼ぐ→分ける」のサイクルで一気に整理します。',
+    subtitle: '出資から配当までの一連の財務サイクルと主要勘定科目の関係。',
     url: 'http://localhost:3001/guides/corporate-finance-cycle',
-    tags: ['純資産', '負債', '資本金', '繰越利益剰余金', '配当', '利益準備金'],
+    tags: ['資本金', '繰越利益剰余金', '配当'],
     questions: [
       {
-        text: '【剰余金の配当】株主総会において、繰越利益剰余金から株主配当金 50,000円の支払いが決議され、同時に利益準備金 5,000円を積み立てることとした。',
+        text: '【利益配当の決議】株主総会で、繰越利益剰余金から株主配当金 50,000円の支払いと利益準備金 5,000円の積立が決議された。',
         choices: [
           '(借) 繰越利益剰余金 55,000 / (貸) 未払配当金 50,000 , 利益準備金 5,000',
-          '(借) 繰越利益剰余金 50,000 / (貸) 未払配当金 50,000',
-          '(借) 未払配当金 50,000 , 利益準備金 5,000 / (貸) 繰越利益剰余金 55,000',
-          '(借) 繰越利益剰余金 55,000 / (貸) 未払配当金 50,000 , 資本金 5,000'
+          '(借) 繰越利益剰余金 50,000 / (貸) 未払配当金 50,000'
         ],
         correct: 0,
         explanation: {
-          concept: '配当と準備金積立の仕訳',
-          brilliantExplanation: '配当の原資として繰越利益剰余金（純資産）を減少させるため借方に。まだ配当金を支払っていないため義務として「未払配当金（負債）」を貸方に。積み立てた「利益準備金（純資産）」の増加を貸方に記録します。'
+          concept: '配当と積立の決議',
+          brilliantExplanation: '配当・積立の原資として「繰越利益剰余金（純資産）」を借方に減らし、未払配当金（負債の増加）と利益準備金（純資産の増加）を貸方に記録します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_13',
+    level: 13,
+    title: '株式会社の夜明け',
+    subtitle: '株式を発行して設立した際の『資本金』の計上ルール。',
+    url: 'http://localhost:3001/guides/capital-stock',
+    tags: ['資本金', '租税公課', '設立費用'],
+    questions: [
+      {
+        text: '【設立時の出資】株式を発行し、出資金 500,000円が当座預金に払い込まれた。',
+        choices: [
+          '(借) 当座預金 500,000 / (貸) 資本金 500,000',
+          '(借) 資本金 500,000 / (貸) 当座預金 500,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '資本金計上',
+          brilliantExplanation: '払い込まれた金額は「当座預金（資産）」の増加として借方に、元手は「資本金（純資産）」として貸方に計上します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_14',
+    level: 14,
+    title: '配当の宴',
+    subtitle: '株主への利益配当と未払配当金の支払い。',
+    url: 'http://localhost:3001/guides/dividends',
+    tags: ['未払配当金', '繰越利益剰余金'],
+    questions: [
+      {
+        text: '【配当金の支払】かねて決議されていた株主配当金 50,000円を普通預金から支払った。',
+        choices: [
+          '(借) 未払配当金 50,000 / (貸) 普通預金 50,000',
+          '(借) 繰越利益剰余金 50,000 / (貸) 普通預金 50,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '未払配当金の支払',
+          brilliantExplanation: '配当支払い義務であった「未払配当金（負債）」が減少したため借方に、普通預金（資産）の減少を貸方に記録します。'
         }
       }
     ]
@@ -608,22 +620,108 @@ const roadmapLevels = [
     id: 'lvl_15',
     level: 15,
     title: '法人税の関所',
-    subtitle: '法人税等の前払い（中間納付）と決算精算の仕組みをマスターします。',
+    subtitle: '中間申告時の『仮払法人税等』と、決算時の確定精算『未払法人税等』の相殺仕訳。',
     url: 'http://localhost:3001/guides/corporate-taxes',
-    tags: ['費用', '資産', '負債', '法人税等', '仮払法人税等', '未払法人税等'],
+    tags: ['法人税等', '仮払法人税等', '未払法人税等'],
     questions: [
       {
-        text: '【決算時の法人税等計上】決算にあたり、当期の法人税等が 80,000円と確定した。なお、中間申告時に 30,000円をすでに仮払いしているため、残額を未払いとした。',
+        text: '【決算時の法人税等】法人税等が 80,000円と確定し、中間支払額 30,000円を差し引いた残額を未払いとした。',
         choices: [
           '(借) 法人税等 80,000 / (貸) 仮払法人税等 30,000 , 未払法人税等 50,000',
-          '(借) 法人税等 80,000 / (貸) 現金 30,000 , 未払法人税等 50,000',
-          '(借) 法人税等 50,000 / (貸) 未払法人税等 50,000',
-          '(借) 仮払法人税等 30,000 , 未払法人税等 50,000 / (貸) 法人税等 80,000'
+          '(借) 法人税等 80,000 / (貸) 未払法人税等 80,000'
         ],
         correct: 0,
         explanation: {
           concept: '法人税等の確定仕訳',
-          brilliantExplanation: '当期の費用として「法人税等 80,000円」を借方に計上し、期中に支払っていた「仮払法人税等（資産）30,000円」を取り崩すために貸方に相殺します。差額の 50,000円は「未払法人税等（負債）」とします。'
+          brilliantExplanation: '当期費用として「法人税等」を借方に、中間払いで先に払っていた「仮払法人税等（資産）」を貸方に相殺します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_16',
+    level: 16,
+    title: '消費税の市場',
+    subtitle: '仮払消費税、仮受消費税を相殺して未払消費税を計上する決算仕訳。',
+    url: 'http://localhost:3001/guides/consumption-tax',
+    tags: ['仮払消費税', '仮受消費税', '未払消費税'],
+    questions: [
+      {
+        text: '【消費税の決算精算】当期の仮受消費税 80,000円と仮払消費税 50,000円を相殺し、差額を未払いとした。',
+        choices: [
+          '(借) 仮受消費税 80,000 / (貸) 仮払消費税 50,000 , 未払消費税 30,000',
+          '(借) 未払消費税 30,000 / (貸) 仮受消費税 30,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '消費税の決算精算',
+          brilliantExplanation: '仮受消費税（負債）を借方に、仮払消費税（資産）を貸方に振り替えて相殺し、差額を未払消費税（負債）として計上します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_17',
+    level: 17,
+    title: '社保の病院',
+    subtitle: '従業員からの社会保険料天引きと、会社負担分（法定福利費）の納付。',
+    url: 'http://localhost:3001/guides/social-insurance',
+    tags: ['社会保険料預り金', '法定福利費'],
+    questions: [
+      {
+        text: '【社会保険料の納付】社会保険料 40,000円（従業員負担分 20,000円、会社負担分 20,000円）を現金で納付した。',
+        choices: [
+          '(借) 社会保険料預り金 20,000 , 法定福利費 20,000 / (貸) 現金 40,000',
+          '(借) 法定福利費 40,000 / (貸) 現金 40,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '社会保険料の納付',
+          brilliantExplanation: '預かっていた「社会保険料預り金（負債）」を減らし、会社負担分は「法定福利費（費用）」として計上します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_18',
+    level: 18,
+    title: '給与の金庫',
+    subtitle: '給料の総額から税金や保険料などを天引きし、手取額を支払う仕訳。',
+    url: 'http://localhost:3001/guides/salary',
+    tags: ['給料', '所得税預り金', '社会保険料預り金'],
+    questions: [
+      {
+        text: '【給料の支払】給料 300,000円から所得税預り金 10,000円、社会保険料預り金 25,000円を天引きし、普通預金から支払った。',
+        choices: [
+          '(借) 給料 300,000 / (貸) 所得税預り金 10,000 , 社会保険料預り金 25,000 , 普通預金 265,000',
+          '(借) 給料 300,000 / (貸) 預り金 35,000 , 普通預金 265,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '給料支払時の天引き',
+          brilliantExplanation: '給料総額（費用）を借方に、天引きした所得税と社会保険料はそれぞれ「預り金」として貸方に負債計上します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_19',
+    level: 19,
+    title: '商品券の遊園地',
+    subtitle: '他社発行の商品券で売上げた際の「受取商品券」の発生と換金処理。',
+    url: 'http://localhost:3001/guides/gift-certificates',
+    tags: ['受取商品券', '売上'],
+    questions: [
+      {
+        text: '【商品券の受取】商品 15,000円を売り上げ、代金は他社発行の商品券で受け取った。',
+        choices: [
+          '(借) 受取商品券 15,000 / (貸) 売上 15,000',
+          '(借) 売上 15,000 / (貸) 受取商品券 15,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '受取商品券の計上',
+          brilliantExplanation: '他社商品券は後に換金できる権利（資産）のため、「受取商品券」勘定の借方に記録します。'
         }
       }
     ]
@@ -632,22 +730,64 @@ const roadmapLevels = [
     id: 'lvl_20',
     level: 20,
     title: '過不足の迷宮',
-    subtitle: '現金過不足の発生から決算整理の仕訳ルール。実際額に帳簿を合わせる方法をマスターします。',
+    subtitle: '現金実際額と帳簿額が一致しない場合の「現金過不足」の処理。',
     url: 'http://localhost:3001/guides/cash-over-short',
-    tags: ['資産', '費用', '収益', '現金', '現金過不足', '雑損', '雑益', '決算整理'],
+    tags: ['現金過不足', '雑損', '雑益'],
     questions: [
       {
-        text: '【現金過不足の発生】金庫の現金実際有高を調べたところ 50,000円であったが、帳簿残高は 52,000円であった。原因は不明であるため、帳簿を修正した。',
+        text: '【現金過不足の発生】手元現金 50,000円、帳簿残高は 52,000円。原因不明のため帳簿を修正する。',
         choices: [
           '(借) 現金過不足 2,000 / (貸) 現金 2,000',
-          '(借) 現金 2,000 / (貸) 現金過不足 2,000',
-          '(借) 雑損 2,000 / (貸) 現金 2,000',
-          '(借) 現金 2,000 / (貸) 雑益 2,000'
+          '(借) 現金 2,000 / (貸) 現金過不足 2,000'
         ],
         correct: 0,
         explanation: {
-          concept: '現金過不足の発生仕訳',
-          brilliantExplanation: '現金実際有高（50,000円）のほうが帳簿（52,000円）より少ないため、<strong>帳簿残高を減らして実際額に合わせます</strong>。よって貸方に現金 2,000円、借方に仮の整理科目である「現金過不足 2,000円」を計上します。'
+          concept: '現金過不足の発生',
+          brilliantExplanation: '実際額に帳簿を合わせるため、帳簿上の現金（資産）を2,000円減らし、相手科目は「現金過不足」とします。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_21',
+    level: 21,
+    title: '訂正の魔法陣',
+    subtitle: '過去の誤った仕訳を正しい状態に修正する訂正仕訳。',
+    url: 'http://localhost:3001/guides/level-21',
+    tags: ['訂正仕訳', '仕訳訂正'],
+    questions: [
+      {
+        text: '【誤記訂正】備品 50,000円を現金購入したが、誤って「仕入 50,000 / 現金 50,000」と起票していた。正しい訂正仕訳は？',
+        choices: [
+          '(借) 備品 50,000 / (貸) 仕入 50,000',
+          '(借) 仕入 50,000 / (貸) 備品 50,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '訂正仕訳の基本',
+          brilliantExplanation: '誤って計上された「仕入」を貸方に減らし、本来あるべき「備品」を借方に計上して修正します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_22',
+    level: 22,
+    title: '固定資産の終焉',
+    subtitle: '固定資産の廃棄や除却に伴う『固定資産除却損』の計上。',
+    url: 'http://localhost:3001/guides/fixed-asset-disposal',
+    tags: ['除却', '固定資産除却損', '備品'],
+    questions: [
+      {
+        text: '【備品の除却】備品（取得原価 120,000円、累計額 100,000円）を除却した。',
+        choices: [
+          '(借) 減価償却累計額 100,000 , 固定資産除却損 20,000 / (貸) 備品 120,000',
+          '(借) 減価償却累計額 100,000 / (貸) 備品 100,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '固定資産の除却',
+          brilliantExplanation: '備品（資産）と累計額（評価）を取り崩し、帳簿価額（差額）は「固定資産除却損（費用）」として借方に計上します。'
         }
       }
     ]
@@ -656,22 +796,64 @@ const roadmapLevels = [
     id: 'lvl_23',
     level: 23,
     title: '減価償却の回廊',
-    subtitle: '価値が毎年減る「減価償却」。間接法と売却損益の仕訳を攻略します。',
+    subtitle: '価値が毎年減る「減価償却」。間接法と累計額のルールを学びます。',
     url: 'http://localhost:3001/guides/depreciation',
-    tags: ['費用', '資産', '減価償却費', '減価償却累計額', '固定資産売却損', '固定資産売却益'],
+    tags: ['減価償却費', '減価償却累計額'],
     questions: [
       {
-        text: '【減価償却の計上】当期末の決算において、備品（取得原価 100,000円、残存価額ゼロ、耐用年数5年）について定額法（間接法）で減価償却を行う。',
+        text: '【減価償却の計上】備品（取得 100,000円、耐用年数5年、残存ゼロ）の当期減価償却を定額法（間接法）で行う。',
         choices: [
           '(借) 減価償却費 20,000 / (貸) 減価償却累計額 20,000',
-          '(借) 減価償却費 20,000 / (貸) 備品 20,000',
-          '(借) 減価償却累計額 20,000 / (貸) 減価償却費 20,000',
-          '(借) 備品 20,000 / (貸) 減価償却費 20,000'
+          '(借) 減価償却費 20,000 / (貸) 備品 20,000'
         ],
         correct: 0,
         explanation: {
-          concept: '減価償却（間接法）の仕訳',
-          brilliantExplanation: '定額法による計算：100,000 ÷ 5 ＝ 20,000円。間接法では、資産（備品）から直接差し引くのではなく、<strong>「減価償却累計額（資産のマイナス勘定）」</strong>を貸方に記録します。'
+          concept: '減価償却（間接法）',
+          brilliantExplanation: '100,000 ÷ 5 ＝ 20,000円。間接法では備品を直接減らさず、「減価償却累計額」を使用します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_24',
+    level: 24,
+    title: '貸倒引当金の壁',
+    subtitle: '売掛金の焦げ付きに備える「貸倒引当金」と「貸倒損失」。',
+    url: 'http://localhost:3001/guides/bad-debts',
+    tags: ['貸倒引当金', '貸倒損失'],
+    questions: [
+      {
+        text: '【貸倒れの発生】前期発生の売掛金 10,000円が回収不能となった。貸倒引当金残高は 15,000円である。',
+        choices: [
+          '(借) 貸倒引当金 10,000 / (貸) 売掛金 10,000',
+          '(借) 貸倒損失 10,000 / (貸) 売掛金 10,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '貸倒れの発生',
+          brilliantExplanation: '前期以前の売上債権の焦げ付きは、設定されている「貸倒引当金」から優先的に取り崩します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_25',
+    level: 25,
+    title: '訂正の魔法陣（応用）',
+    subtitle: '誤記を美しく修正する訂正仕訳の実践的なテクニック。',
+    url: 'http://localhost:3001/guides/correcting-entries',
+    tags: ['訂正仕訳', '売掛金', '現金'],
+    questions: [
+      {
+        text: '【誤記訂正】売掛金 20,000円の現金回収を、誤って「当座預金 20,000 / 売掛金 20,000」としていた。訂正仕訳は？',
+        choices: [
+          '(借) 現金 20,000 / (貸) 当座預金 20,000',
+          '(借) 当座預金 20,000 / (貸) 現金 20,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '現金と預金の振替訂正',
+          brilliantExplanation: '本来借方に増えるはずの「現金」を計上し、誤って借方に増やした「当座預金」を貸方に減らして相殺します。'
         }
       }
     ]
@@ -680,22 +862,86 @@ const roadmapLevels = [
     id: 'lvl_26',
     level: 26,
     title: '経過勘定の4兄弟',
-    subtitle: '決算整理の最重要テーマ「未払・前払・未収・前受」を一気に整理します。',
+    subtitle: '決算整理で最も配点が高い経過勘定（未払・前払・未収・前受）の総論。',
     url: 'http://localhost:3001/guides/accrual-adjustments',
-    tags: ['決算整理', '経過勘定', '未払費用', '前払費用', '未収収益', '前受収益', '見越し', '繰延べ'],
+    tags: ['経過勘定', '決算整理'],
     questions: [
       {
-        text: '【決算整理・家賃の前払い】決算において、当期に支払った家賃のうち、翌期分に属する未経過分 12,000円を前払いとして処理する。',
+        text: '【家賃の前払い】決算において、支払った家賃のうち翌期分 12,000円を前払いとして処理する。',
         choices: [
           '(借) 前払家賃 12,000 / (貸) 支払家賃 12,000',
-          '(借) 支払家賃 12,000 / (貸) 前払家賃 12,000',
-          '(借) 前払家賃 12,000 / (貸) 現金 12,000',
-          '(借) 未払家賃 12,000 / (貸) 支払家賃 12,000'
+          '(借) 支払家賃 12,000 / (貸) 前払家賃 12,000'
         ],
         correct: 0,
         explanation: {
-          concept: '費用の繰延べ（前払家賃）',
-          brilliantExplanation: '当期の費用から翌期の家賃を引く（費用のマイナス➔貸方に支払家賃）とともに、翌期にお金を使わずに住む権利として「前払家賃（資産➔借方に前払家賃）」を計上します。'
+          concept: '費用の繰延べ',
+          brilliantExplanation: '当期の家賃（費用）を減らすため貸方に「支払家賃」を、翌期分の権利として借方に「前払家賃（資産）」を計上します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_27',
+    level: 27,
+    title: '消耗品の倉庫',
+    subtitle: '消耗品購入時の費用処理と、決算期末の未使用分調整仕訳。',
+    url: 'http://localhost:3001/guides/supplies',
+    tags: ['消耗品', '消耗品費'],
+    questions: [
+      {
+        text: '【消耗品の決算】期中に消耗品費として処理したうち、期末の未使用分が 2,000円あった。',
+        choices: [
+          '(借) 消耗品 2,000 / (貸) 消耗品費 2,000',
+          '(借) 消耗品費 2,000 / (貸) 消耗品 2,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '消耗品未使用分の資産計上',
+          brilliantExplanation: '未使用分は費用からマイナス（貸方に消耗品費）し、「消耗品（資産）」として借方に計上します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_28',
+    level: 28,
+    title: '前払の時の部屋',
+    subtitle: '当期支払った費用の中から、翌期の「未経過分」を資産として持ち越す処理。',
+    url: 'http://localhost:3001/guides/prepaid-expenses',
+    tags: ['前払費用', '支払保険料'],
+    questions: [
+      {
+        text: '【未経過保険料】支払った保険料のうち翌期分 6,000円を「前払保険料」として処理する。',
+        choices: [
+          '(借) 前払保険料 6,000 / (貸) 支払保険料 6,000',
+          '(借) 支払保険料 6,000 / (貸) 前払保険料 6,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '支払保険料の前払計上',
+          brilliantExplanation: '翌期分は当期の費用からマイナス（貸方に支払保険料）し、前払保険料（資産の増加）を借方に記録します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_29',
+    level: 29,
+    title: '未払の時の部屋',
+    subtitle: '当期にすでに発生している未払いの費用を決算で計上する処理。',
+    url: 'http://localhost:3001/guides/accrued-expenses',
+    tags: ['未払費用', '支払利息'],
+    questions: [
+      {
+        text: '【未払利息】決算において、借入金に対する利息の未払分 4,000円を計上する。',
+        choices: [
+          '(借) 支払利息 4,000 / (貸) 未払利息 4,000',
+          '(借) 未払利息 4,000 / (貸) 支払利息 4,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '支払利息の未払計上',
+          brilliantExplanation: '当期の費用として「支払利息」を借方に、未払分の債務として「未払利息（負債）」を貸方に記録します。'
         }
       }
     ]
@@ -704,47 +950,202 @@ const roadmapLevels = [
     id: 'lvl_30',
     level: 30,
     title: '未収の時の部屋',
-    subtitle: '決算整理における収益の見越し。来年受け取る利息を当期に計上するルールを学びます。',
+    subtitle: '当期中に発生しているが未回収の収益を決算で計上する処理。',
     url: 'http://localhost:3001/guides/accrued-revenues',
-    tags: ['資産', '収益', '未収収益', '受取利息', '決算整理', '再振替仕訳'],
+    tags: ['未収収益', '受取利息'],
     questions: [
       {
-        text: '【決算整理・利息の未収計上】当期末の決算において、貸付金に対する未収利息 5,000円を計上する。',
+        text: '【未収利息】決算において、貸付金に対する利息の未収分 5,000円を計上する。',
         choices: [
           '(借) 未収利息 5,000 / (貸) 受取利息 5,000',
-          '(借) 受取利息 5,000 / (貸) 未収利息 5,000',
-          '(借) 未収利息 5,000 / (貸) 貸付金 5,000',
-          '(借) 未払利息 5,000 / (貸) 受取利息 5,000'
+          '(借) 受取利息 5,000 / (貸) 未収利息 5,000'
         ],
         correct: 0,
         explanation: {
-          concept: '収益の見越し（未収利息）',
-          brilliantExplanation: '当期に発生しているがまだ受け取っていない利息を、当期の収益にするため貸方に「受取利息」を。将来受け取る権利として借方に「未収利息（資産）」を記録します。'
+          concept: '受取利息の未収計上',
+          brilliantExplanation: '当期の収益として「受取利息」を貸方に、回収権利として「未収利息（資産）」を借方に記録します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_31',
+    level: 31,
+    title: '前受の時の部屋',
+    subtitle: '当期に受け取った収益の中から、翌期分を負債として繰り延べる処理。',
+    url: 'http://localhost:3001/guides/prepaid-revenues',
+    tags: ['前受収益', '受取家賃'],
+    questions: [
+      {
+        text: '【未経過家賃】受け取った家賃のうち翌期分の未経過額 8,000円を「前受家賃」として処理する。',
+        choices: [
+          '(借) 受取家賃 8,000 / (貸) 前受家賃 8,000',
+          '(借) 前受家賃 8,000 / (貸) 受取家賃 8,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '受取家賃の前受計上',
+          brilliantExplanation: '翌期分は当期の収益からマイナス（借方に受取家賃）し、前受家賃（負債の増加）を貸方に記録します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_32',
+    level: 32,
+    title: '貯蔵品の小部屋',
+    subtitle: '未使用の切手や印紙などの決算時における「貯蔵品」への振替。',
+    url: 'http://localhost:3001/guides/level-32',
+    tags: ['貯蔵品', '通信費', '租税公課'],
+    questions: [
+      {
+        text: '【切手印紙の未使用】期中に費用処理した切手 1,500円と印紙 3,000円の未使用分を貯蔵品に振り替える。',
+        choices: [
+          '(借) 貯蔵品 4,500 / (貸) 通信費 1,500 , 租税公課 3,000',
+          '(借) 通信費 1,500 , 租税公課 3,000 / (貸) 貯蔵品 4,500'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '貯蔵品への振替',
+          brilliantExplanation: '未使用分は費用からマイナス（貸方に通信費・租税公課）し、「貯蔵品（資産）」として借方に振り替えます。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_33',
+    level: 33,
+    title: '精算表の玉座',
+    subtitle: '決算整理仕訳を集計し、B/SとP/Lを作成する「精算表」の作成手順。',
+    url: 'http://localhost:3001/guides/work-sheet',
+    tags: ['精算表', '当期純利益', '決算整理'],
+    questions: [
+      {
+        text: '【精算表の計算】精算表の損益計算書（P/L）欄で、費用合計が 450,000円、収益合計が 500,000円のとき、当期純利益は？',
+        choices: [
+          '当期純利益 50,000円',
+          '当期純損失 50,000円'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '当期純利益の計算',
+          brilliantExplanation: '収益（500,000円）から費用（450,000円）を差し引いた差額 50,000円が当期純利益となります。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_34',
+    level: 34,
+    title: '試算表の鏡',
+    subtitle: '転記ミスや仕訳誤りを発見する合計試算表・残高試算表。',
+    url: 'http://localhost:3001/guides/trial-balance',
+    tags: ['試算表', '合計試算表', '残高試算表'],
+    questions: [
+      {
+        text: '【試算表の原則】残高試算表における借方合計額と貸方合計額の関係について、正しいものは？',
+        choices: [
+          '必ず一致する',
+          '必ず一致しない'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '貸借平均の原理',
+          brilliantExplanation: 'すべての仕訳を正しく転記できていれば、複式簿記の原則（貸借平均の原理）により、借方と貸方の合計額は必ず一致します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_35',
+    level: 35,
+    title: '財務諸表の玉座',
+    subtitle: '決算の最終報告書である『貸借対照表（B/S）』と『損益計算書（P/L）』。',
+    url: 'http://localhost:3001/guides/financial-statements',
+    tags: ['財務諸表', '貸借対照表', '損益計算書'],
+    questions: [
+      {
+        text: '【貸借対照表】貸借対照表（B/S）の右側（貸方）に表示される項目グループはどれですか？',
+        choices: [
+          '負債 および 純資産',
+          '資産 および 費用',
+          '資産 および 純資産'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '貸借対照表の構成',
+          brilliantExplanation: '貸借対照表（B/S）は、左側（借方）に「資産」、右側（貸方）に「負債」と「純資産」を表示します。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_37',
+    level: 37,
+    title: '決算整理の書庫',
+    subtitle: '減価償却・貸倒引当金・売上原価（し・くり・くり・し）の総まとめ。',
+    url: 'http://localhost:3001/guides/year-end-adjustments-summary',
+    tags: ['決算整理', '売上原価', '総まとめ'],
+    questions: [
+      {
+        text: '【売上原価の算定】仕入勘定で売上原価を算定する（し・くり・くり・し）決算整理仕訳は？',
+        choices: [
+          '(借) 仕入 XXX / (貸) 繰越商品 XXX , および (借) 繰越商品 YYY / (貸) 仕入 YYY',
+          '(借) 繰越商品 XXX / (貸) 仕入 XXX , および (借) 仕入 YYY / (貸) 繰越商品 YYY'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '売上原価の算定仕訳',
+          brilliantExplanation: '期首商品残高を「仕入」に振り替えるため「(借) 仕入 / (貸) 繰越商品」、期末商品残高を「仕入」から控除するため「(借) 繰越商品 / (貸) 仕入」とします。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_38',
+    level: 38,
+    title: '再振替仕訳',
+    subtitle: '経過勘定（前払費用など）を翌期首に逆仕訳で戻す「再振替仕訳」の意味。',
+    url: 'http://localhost:3001/guides/reversing-entries',
+    tags: ['再振替仕訳', '期首', '経過勘定'],
+    questions: [
+      {
+        text: '【前払保険料の再振替】期首にあたり、前期決算で計上した前払保険料 6,000円の再振替仕訳は？',
+        choices: [
+          '(借) 支払保険料 6,000 / (貸) 前払保険料 6,000',
+          '(借) 前払保険料 6,000 / (貸) 支払保険料 6,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '再振替仕訳',
+          brilliantExplanation: '決算時に繰り延べた資産「前払保険料」を、翌期の費用に戻すため、逆仕訳（(借) 支払保険料 / (貸) 前払保険料）を行います。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'lvl_39',
+    level: 39,
+    title: '帳簿の締切りと大団円',
+    subtitle: '収益・費用を「損益」勘定に振り替え、帳簿を完全に締め切るプロセス。',
+    url: 'http://localhost:3001/guides/closing-books',
+    tags: ['決算振替仕訳', '損益勘定', '帳簿の締切り', '大団円'],
+    questions: [
+      {
+        text: '【決算振替】当期末決算にて、収益である「売上 500,000円」を損益勘定に振り替える仕訳は？',
+        choices: [
+          '(借) 売上 500,000 / (貸) 損益 500,000',
+          '(借) 損益 500,000 / (貸) 売上 500,000'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '決算振替仕訳（収益の振替）',
+          brilliantExplanation: '収益勘定（売上など）の残高をゼロにして損益勘定に集計するため、逆側の借方に「売上」を記録し、貸方に「損益」を記録します。'
         }
       }
     ]
   }
 ];
-
-// ==========================================
-// Services Metadata Configuration
-// ==========================================
-const servicesData = {
-  boki_tutorial: {
-    title: '勘定科目マスター',
-    subtitle: 'SM-2 + しつこく復習ループで限界突破記憶 (無限ライフ)',
-    themeColor: 'cyan',
-    get questions() {
-      return generateTutorialQuestions();
-    }
-  },
-  boki_shiwake: {
-    title: '簿記3級 仕訳クエスト',
-    subtitle: '実践的な仕訳取引の4択攻略',
-    themeColor: 'indigo',
-    questions: []
-  }
-};
 
 // ==========================================
 // LocalStorage Progress Sync
@@ -784,6 +1185,26 @@ const saveRoadmapProgress = () => {
     localStorage.setItem('qlearn_roadmap_boki', JSON.stringify(state.roadmapProgress));
   } catch (e) {
     console.error('Failed to save roadmap progress', e);
+  }
+};
+
+// ==========================================
+// Services Metadata Configuration
+// ==========================================
+const servicesData = {
+  boki_tutorial: {
+    title: '勘定科目マスター',
+    subtitle: 'SM-2 + しつこく復習ループで限界突破記憶 (無限ライフ)',
+    themeColor: 'cyan',
+    get questions() {
+      return generateTutorialQuestions();
+    }
+  },
+  boki_shiwake: {
+    title: '簿記3級 仕訳クエスト',
+    subtitle: '実践的な仕訳取引の4択攻略',
+    themeColor: 'indigo',
+    questions: []
   }
 };
 
@@ -875,7 +1296,7 @@ const renderPortal = () => {
           <i data-lucide="map" class="text-gray-400 dark:text-gray-500 w-5 h-5"></i>
         </div>
         <h3 class="text-xl font-bold mb-1 text-gray-900 dark:text-white">仕訳クエスト 魔導ロードマップ</h3>
-        <p class="text-xs text-gray-500 dark:text-gray-400">Lv0〜Lv38のクエストをすごろく形式で攻略</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">Lv0〜Lv39のクエストをすごろく形式で攻略</p>
       </div>
       <div class="border-t border-gray-200 dark:border-gray-800 pt-3 mt-3 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
         <span class="font-bold flex items-center gap-1"><i data-lucide="award" class="w-3.5 h-3.5"></i> 全 ${roadmapLevels.length} ステージ</span>
@@ -1371,7 +1792,7 @@ const renderResult = () => {
       reviewBtnContainer.innerHTML = `
         <div class="p-4 rounded-xl bg-orange-500/10 border border-orange-500/30 text-center">
           <p class="text-xs text-orange-600 dark:text-orange-300">
-            このセッションで <strong>${state.firstTimeWrongCount} 回</strong> 間違えましたが、しつこく復習してすべて克服しました！
+            このセッションで <strong>${state.firstTimeWrongCount} 回</strong> 間間違えましたが、しつこく復習してすべて克服しました！
           </p>
         </div>
       `;
@@ -1427,45 +1848,48 @@ const updateThemeIcon = (isDark) => {
   }
 };
 
-const safeCreateIcons = () => {
+const playSound = (type) => {
   try {
-    if (typeof lucide !== 'undefined' && lucide.createIcons) {
-      lucide.createIcons();
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    if (type === 'select') {
+      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.05);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.05);
+    } else if (type === 'correct') {
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+      osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+      osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.4);
+    } else if (type === 'incorrect') {
+      osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
+      osc.frequency.setValueAtTime(196, ctx.currentTime + 0.15); // G3
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.3);
+    } else if (type === 'level-up') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+      osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.08); // E5
+      osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.16); // G5
+      osc.frequency.setValueAtTime(1046.50, ctx.currentTime + 0.24); // C6
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.5);
     }
   } catch (e) {
-    console.warn('Lucide icons failed to render', e);
-  }
-};
-
-// ==========================================
-// Utility Helpers & Visual Effects
-// ==========================================
-const getThemeColorHex = (theme) => {
-  switch (theme) {
-    case 'indigo': return '#6366f1';
-    case 'cyan': return '#06b6d4';
-    default: return '#6366f1';
-  }
-};
-
-const triggerConfetti = () => {
-  const container = document.body;
-  const colors = ['#f43f5e', '#3b82f6', '#10b981', '#eab308', '#a855f7'];
-  
-  for (let i = 0; i < 40; i++) {
-    const confetti = document.createElement('div');
-    confetti.className = 'confetti';
-    confetti.style.left = `${Math.random() * 100}vw`;
-    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    confetti.style.transform = `scale(${Math.random() * 0.8 + 0.4})`;
-    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
-    confetti.style.animationDuration = `${Math.random() * 2 + 1}s`;
-    
-    container.appendChild(confetti);
-    
-    setTimeout(() => {
-      confetti.remove();
-    }, 2500);
+    console.warn('Audio Context failed', e);
   }
 };
 
