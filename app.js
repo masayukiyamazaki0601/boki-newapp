@@ -727,6 +727,26 @@ const roadmapLevels = [
 ];
 
 // ==========================================
+// Services Metadata Configuration
+// ==========================================
+const servicesData = {
+  boki_tutorial: {
+    title: '勘定科目マスター',
+    subtitle: 'SM-2 + しつこく復習ループで限界突破記憶 (無限ライフ)',
+    themeColor: 'cyan',
+    get questions() {
+      return generateTutorialQuestions();
+    }
+  },
+  boki_shiwake: {
+    title: '簿記3級 仕訳クエスト',
+    subtitle: '実践的な仕訳取引の4択攻略',
+    themeColor: 'indigo',
+    questions: []
+  }
+};
+
+// ==========================================
 // LocalStorage Progress Sync
 // ==========================================
 const loadRoadmapProgress = () => {
