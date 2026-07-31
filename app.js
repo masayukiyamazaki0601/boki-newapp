@@ -796,6 +796,105 @@ const roadmapLevels = [
             </div>
           `
         }
+      },
+      {
+        text: '【現金過不足の決算整理（類題）】決算において、現金の帳簿残高（2,000円）より実際有高が500円不足していることが判明した。このうち200円は旅費交通費の記帳漏れであり、残額は原因不明のため雑損として処理する。正しい仕訳を選びなさい。',
+        choices: [
+          '(借) 旅費交通費 200 , 雑損 300 / (貸) 現金 500',
+          '(借) 旅費交通費 200 , 現金過不足 300 / (貸) 現金 500',
+          '(借) 現金 500 / (貸) 旅費交通費 200 , 雑益 300',
+          '(借) 旅費交通費 200 , 雑益 300 / (貸) 現金 500'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '決算日における不一致の整理（不足）',
+          brilliantExplanation: `
+            <div class="space-y-3 font-sans">
+              <p class="text-gray-600 dark:text-gray-300 text-xs leading-relaxed">
+                現金の実際有高不足（500円）に対し、判明した<strong>旅費交通費 200円（借方・費用の発生）</strong>、および原因不明額を<strong>雑損 300円（借方・費用の発生）</strong>として仕訳します。実際額に合わせるため、現金は<strong>500円減少（貸方）</strong>させます。
+              </p>
+              <div class="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-gray-50/50 dark:bg-gray-900/30 text-xs">
+                <div class="bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 font-bold py-1 text-center text-gray-500 dark:text-gray-400">決算整理後残高試算表（一部）</div>
+                <table class="w-full text-center">
+                  <thead>
+                    <tr class="border-b border-gray-200 dark:border-gray-800 text-[10px] text-gray-400">
+                      <th class="py-1 w-1/3">借方残高</th>
+                      <th class="py-1 w-1/3 border-x border-gray-200 dark:border-gray-800">勘定科目</th>
+                      <th class="py-1 w-1/3">貸方残高</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-gray-200 dark:border-gray-800">
+                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">1,500</td>
+                      <td class="py-1 border-x border-gray-200 dark:border-gray-800">現金</td>
+                      <td class="py-1">-</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 dark:border-gray-800">
+                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">200</td>
+                      <td class="py-1 border-x border-gray-200 dark:border-gray-800">旅費交通費</td>
+                      <td class="py-1">-</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">300</td>
+                      <td class="py-1 border-x border-gray-200 dark:border-gray-800">雑損</td>
+                      <td class="py-1">-</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `
+        }
+      },
+      {
+        text: '【現金過不足の決算整理（超過）】決算において、現金の帳簿残高（1,000円）より実際有高が300円多い（超過している）ことが判明した。このうち100円は受取手数料の記入漏れであり、残額は原因不明のため雑益として処理する。正しい仕訳を選びなさい。',
+        choices: [
+          '(借) 現金 300 / (貸) 受取手数料 100 , 雑益 200',
+          '(借) 現金 300 / (貸) 受取手数料 100 , 現金過不足 200',
+          '(借) 受取手数料 100 , 雑損 200 / (貸) 現金 300',
+          '(借) 現金 300 / (貸) 受取手数料 100 , 雑損 200'
+        ],
+        correct: 0,
+        explanation: {
+          concept: '決算日における不一致 of 整理（超過）',
+          brilliantExplanation: `
+            <div class="space-y-3 font-sans">
+              <p class="text-gray-600 dark:text-gray-300 text-xs leading-relaxed">
+                現金の実際有高が帳簿より多いため、実際額に合わせて現金を<strong>300円増加（借方）</strong>させます。
+                判明した記入漏れの<strong>受取手数料 100円（貸方・収益 of 発生）</strong>、および原因不明額を<strong>雑益 200円（貸方・収益 of 発生）</strong>として貸方に計上します。
+              </p>
+              <div class="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-gray-50/50 dark:bg-gray-900/30 text-xs">
+                <div class="bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 font-bold py-1 text-center text-gray-500 dark:text-gray-400">決算整理後残高試算表（一部）</div>
+                <table class="w-full text-center">
+                  <thead>
+                    <tr class="border-b border-gray-200 dark:border-gray-800 text-[10px] text-gray-400">
+                      <th class="py-1 w-1/3">借方残高</th>
+                      <th class="py-1 w-1/3 border-x border-gray-200 dark:border-gray-800">勘定科目</th>
+                      <th class="py-1 w-1/3">貸方残高</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-gray-200 dark:border-gray-800">
+                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">1,300</td>
+                      <td class="py-1 border-x border-gray-200 dark:border-gray-800">現金</td>
+                      <td class="py-1">-</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 dark:border-gray-800">
+                      <td class="py-1">-</td>
+                      <td class="py-1 border-x border-gray-200 dark:border-gray-800">受取手数料</td>
+                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">100</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1">-</td>
+                      <td class="py-1 border-x border-gray-200 dark:border-gray-800">雑益</td>
+                      <td class="py-1 font-mono text-emerald-600 dark:text-emerald-400 font-bold">200</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `
+        }
       }
     ]
   },
