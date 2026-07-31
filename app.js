@@ -20,14 +20,273 @@ const state = {
   // 魔導ロードマップの進捗状況 (LocalStorageで永続化)
   roadmapProgress: {
     lvl_0: { unlocked: true, completed: false },
-    lvl_1: { unlocked: true, completed: false },
-    // 残りは動的に初期化
+    lvl_1: { unlocked: true, completed: false }
   }
 };
 
 // ==========================================
-// 魔導ロードマップ レベルデータ定義
+// 簿記3級 勘定科目データ一覧 (57種類)
 // ==========================================
+const bokiAccounts = [
+  // 資産 (借方)
+  { name: '現金', category: '資産', side: 0 },
+  { name: '普通預金', category: '資産', side: 0 },
+  { name: '定期預金', category: '資産', side: 0 },
+  { name: '当座預金', category: '資産', side: 0 },
+  { name: '受取手形', category: '資産', side: 0 },
+  { name: '電子記録債権', category: '資産', side: 0 },
+  { name: '商品', category: '資産', side: 0 },
+  { name: '売掛金', category: '資産', side: 0 },
+  { name: 'クレジット売掛金', category: '資産', side: 0 },
+  { name: '貸付金', category: '資産', side: 0 },
+  { name: '手形貸付金', category: '資産', side: 0 },
+  { name: '未収入金', category: '資産', side: 0 },
+  { name: '前払金', category: '資産', side: 0 },
+  { name: '仮払金', category: '資産', side: 0 },
+  { name: '立替金', category: '資産', side: 0 },
+  { name: '従業員立替金', category: '資産', side: 0 },
+  { name: '受取商品券', category: '資産', side: 0 },
+  { name: '差入保証金', category: '資産', side: 0 },
+  { name: '建物', category: '資産', side: 0 },
+  { name: '貯蔵品', category: '資産', side: 0 },
+  { name: '土地', category: '資産', side: 0 },
+  { name: '備品', category: '資産', side: 0 },
+  { name: '車両運搬具', category: '資産', side: 0 },
+  { name: '仮払法人税等', category: '資産', side: 0 },
+  { name: '仮払消費税', category: '資産', side: 0 },
+  { name: '前払費用', category: '資産', side: 0 },
+  { name: '未収収益', category: '資産', side: 0 },
+
+  // 負債 (貸方)
+  { name: '買掛金', category: '負債', side: 1 },
+  { name: '当座借越', category: '負債', side: 1 },
+  { name: '借入金', category: '負債', side: 1 },
+  { name: '支払手形', category: '負債', side: 1 },
+  { name: '電子記録債務', category: '負債', side: 1 },
+  { name: '手形借入金', category: '負債', side: 1 },
+  { name: '未払金', category: '負債', side: 1 },
+  { name: '前受金', category: '負債', side: 1 },
+  { name: '仮受金', category: '負債', side: 1 },
+  { name: '預り金', category: '負債', side: 1 },
+  { name: '従業員預り金', category: '負債', side: 1 },
+  { name: '所得税預り金', category: '負債', side: 1 },
+  { name: '社会保険料預り金', category: '負債', side: 1 },
+  { name: '未払配当金', category: '負債', side: 1 },
+  { name: '未払法人税等', category: '負債', side: 1 },
+  { name: '仮受消費税', category: '負債', side: 1 },
+  { name: '未払消費税', category: '負債', side: 1 },
+  { name: '未払費用', category: '負債', side: 1 },
+  { name: '前受収益', category: '負債', side: 1 },
+
+  // 純資産 (貸方)
+  { name: '資本金', category: '純資産', side: 1 },
+  { name: '資本準備金', category: '純資産', side: 1 },
+  { name: '繰越利益剰余金', category: '純資産', side: 1 },
+
+  // 費用 (借方)
+  { name: '仕入', category: '費用', side: 0 },
+  { name: '発送費', category: '費用', side: 0 },
+  { name: '通信費', category: '費用', side: 0 },
+  { name: '修繕費', category: '費用', side: 0 },
+  { name: '支払保険料', category: '費用', side: 0 },
+  { name: '広告費', category: '費用', side: 0 },
+  { name: '支払手数料', category: '費用', side: 0 },
+  { name: '支払利息', category: '費用', side: 0 },
+  { name: '旅費交通費', category: '費用', side: 0 },
+  { name: '給料', category: '費用', side: 0 },
+  { name: '消耗品費', category: '費用', side: 0 },
+  { name: '租税公課', category: '費用', side: 0 },
+  { name: '法定福利費', category: '費用', side: 0 },
+  { name: '貸倒損失', category: '費用', side: 0 },
+  { name: '貸倒引当金繰入', category: '費用', side: 0 },
+  { name: '減価償却費', category: '費用', side: 0 },
+  { name: '固定資産売却損', category: '費用', side: 0 },
+  { name: '支払家賃', category: '費用', side: 0 },
+  { name: '法人税等', category: '費用', side: 0 },
+
+  // 収益 (貸方)
+  { name: '商品売買益', category: '収益', side: 1 },
+  { name: '売上', category: '収益', side: 1 },
+  { name: '受取利息', category: '収益', side: 1 },
+  { name: '貸倒引当金戻入', category: '収益', side: 1 },
+  { name: '償却債権取立益', category: '収益', side: 1 },
+  { name: '固定資産売却益', category: '収益', side: 1 },
+  { name: '受取地代', category: '収益', side: 1 },
+
+  // 評価勘定 (貸方)
+  { name: '貸倒引当金', category: '評価勘定', side: 1 },
+  { name: '減価償却累計額', category: '評価勘定', side: 1 }
+];
+
+// ==========================================
+// SM-2 Spaced Repetition Engine
+// ==========================================
+const getSM2Key = (question) => {
+  return question.type === 'tutorial' ? question.text : question.text.substring(0, 30);
+};
+
+const loadSM2Data = () => {
+  try {
+    const raw = localStorage.getItem('qlearn_sm2_boki');
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    console.error('Failed to load SM-2 data', e);
+    return {};
+  }
+};
+
+const saveSM2Data = (data) => {
+  try {
+    localStorage.setItem('qlearn_sm2_boki', JSON.stringify(data));
+  } catch (e) {
+    console.error('Failed to save SM-2 data', e);
+  }
+};
+
+const updateSM2 = (question, isCorrect) => {
+  const data = loadSM2Data();
+  const key = getSM2Key(question);
+  
+  const record = data[key] || {
+    repetitions: 0,
+    easiness: 2.5,
+    interval: 0,
+    lastLearned: Date.now()
+  };
+  
+  const q = isCorrect ? 5 : 1;
+  
+  if (q < 3) {
+    record.repetitions = 0;
+    record.interval = 1;
+  } else {
+    if (record.repetitions === 0) {
+      record.interval = 1;
+    } else if (record.repetitions === 1) {
+      record.interval = 6;
+    } else {
+      record.interval = Math.round(record.interval * record.easiness);
+    }
+    record.repetitions += 1;
+  }
+  
+  record.easiness = record.easiness + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+  if (record.easiness < 1.3) {
+    record.easiness = 1.3;
+  }
+  
+  record.lastLearned = Date.now();
+  data[key] = record;
+  saveSM2Data(data);
+};
+
+const sortQuestionsBySM2 = (questions) => {
+  const sm2Data = loadSM2Data();
+  
+  const scoredQuestions = questions.map(q => {
+    const key = getSM2Key(q);
+    const record = sm2Data[key];
+    
+    let score = 0;
+    
+    if (!record) {
+      score = 50;
+    } else {
+      const nextReviewDate = record.lastLearned + (record.interval * 24 * 60 * 60 * 1000);
+      const timeRemaining = nextReviewDate - Date.now();
+      
+      if (timeRemaining <= 0) {
+        const daysOverdue = Math.abs(timeRemaining) / (24 * 60 * 60 * 1000);
+        score = 100 + daysOverdue;
+      } else {
+        score = 10 - (timeRemaining / (24 * 60 * 60 * 1000));
+      }
+      
+      if (record.interval === 1 && record.repetitions === 0) {
+        score += 200;
+      }
+      
+      score += (3.0 - record.easiness) * 10;
+    }
+    
+    return { question: q, score };
+  });
+  
+  return scoredQuestions
+    .sort((a, b) => b.score - a.score)
+    .map(sq => sq.question);
+};
+
+// ==========================================
+// Quiz Data Configuration
+// ==========================================
+const generateTutorialQuestions = () => {
+  const questions = bokiAccounts.map(acc => {
+    const isBS = ['資産', '負債', '純資産', '評価勘定'].includes(acc.category);
+    
+    let bsText = '';
+    if (isBS) {
+      bsText = `
+        <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-800">
+          <div class="w-1/2 text-center border-r border-gray-200 dark:border-gray-800 py-1 ${acc.side === 0 ? 'bg-emerald-500/10 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 font-bold' : 'text-gray-400'}">
+            資産の増加
+          </div>
+          <div class="w-1/2 text-center py-1 flex flex-col items-center justify-center gap-0.5">
+            <span class="${acc.category === '負債' ? 'bg-indigo-500/10 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 font-bold px-1 rounded' : 'text-gray-400'}">負債の増加</span>
+            <span class="${acc.category === '純資産' ? 'bg-indigo-500/10 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 font-bold px-1 rounded' : 'text-gray-400'}">純資産の増加</span>
+            <span class="${acc.category === '評価勘定' ? 'bg-red-500/10 dark:bg-red-950/20 text-red-600 dark:text-red-400 font-bold px-1 rounded' : 'text-gray-400'}">評価の増加 (-)</span>
+          </div>
+        </div>
+        <div class="text-[9px] text-gray-400 dark:text-gray-500 text-center pt-1">貸借対照表 (B/S) 定位置</div>
+      `;
+    } else {
+      bsText = `
+        <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-800">
+          <div class="w-1/2 text-center border-r border-gray-200 dark:border-gray-800 py-1 ${acc.side === 0 ? 'bg-emerald-500/10 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 font-bold' : 'text-gray-400'}">
+            費用の発生
+          </div>
+          <div class="w-1/2 text-center py-1 ${acc.side === 1 ? 'bg-indigo-500/10 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 font-bold' : 'text-gray-400'}">
+            収益の発生
+          </div>
+        </div>
+        <div class="text-[9px] text-gray-400 dark:text-gray-500 text-center pt-1">損益計算書 (P/L) 定位置</div>
+      `;
+    }
+
+    return {
+      text: acc.name,
+      type: 'tutorial',
+      choices: ['借方 (左側)', '貸方 (右側)'],
+      correct: acc.side,
+      explanation: {
+        concept: `${acc.name} ➔ ${acc.category}`,
+        brilliantExplanation: `
+          <div class="space-y-3 font-sans">
+            <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-300 font-semibold text-sm">
+              <span class="px-2 py-0.5 rounded bg-indigo-500/10 dark:bg-indigo-500/20">勘定科目の分類</span>
+              <span>「${acc.name}」➔ ${acc.category}</span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 text-xs leading-relaxed">
+              「${acc.name}」は <strong>${acc.category}</strong> に分類されます。
+              このグループの「増加（または発生）」は、<strong>${acc.side === 0 ? '借方（左側）' : '貸方（右側）'}</strong> に記録するのがルールです。
+            </p>
+            <div class="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-gray-50/50 dark:bg-gray-900/30">
+              <div class="grid grid-cols-2 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 text-center font-bold py-1 text-xs text-gray-500 dark:text-gray-400">
+                <div class="border-r border-gray-200 dark:border-gray-800">借方 (左)</div>
+                <div>貸方 (右)</div>
+              </div>
+              ${bsText}
+            </div>
+          </div>
+        `
+      }
+    };
+  });
+  
+  return sortQuestionsBySM2(questions);
+};
+
+// 魔導ロードマップ レベルデータ定義
 const roadmapLevels = [
   {
     id: 'lvl_0',
@@ -124,7 +383,7 @@ const roadmapLevels = [
         correct: 0,
         explanation: {
           concept: '仕入諸掛り（当店負担）',
-          brilliantExplanation: '仕入時に発生した当店負担の諸掛り（発送運賃など）は、<strong>仕入原価（本体価格）に含める</strong>のがルールです。したがって仕入勘定は 53,000円になります。'
+          brilliantExplanation: '仕入時に発生した当店負担 of 諸掛り（発送運賃など）は、<strong>仕入原価（本体価格）に含める</strong>のがルールです。したがって仕入勘定は 53,000円になります。'
         }
       }
     ]
@@ -156,7 +415,7 @@ const roadmapLevels = [
   {
     id: 'lvl_5',
     level: 5,
-    title: '電子マネーの街',
+    title: '電子マネー of 街',
     subtitle: 'クレジットカード売上と信販未収金のルール。支払手数料の差し引き仕訳テクニックをマスターします。',
     url: 'http://localhost:3001/guides/credit-card-sales',
     tags: ['資産', '費用', '信販未収金', '支払手数料', 'クレジットカード'],
@@ -345,7 +604,6 @@ const roadmapLevels = [
       }
     ]
   },
-  // 長期ロードマップの可視化のためにLv30までのプレースホルダーを配置し、適切な代表仕訳を関連付ける
   {
     id: 'lvl_15',
     level: 15,
@@ -479,20 +737,16 @@ const loadRoadmapProgress = () => {
       loaded = JSON.parse(raw);
     }
     
-    // 既存データをベースにする
     state.roadmapProgress = loaded;
     
-    // 定義されている全レベルについて、進捗データが存在しない場合は初期化
     roadmapLevels.forEach(lvl => {
       if (!state.roadmapProgress[lvl.id]) {
-        // Lv0 と Lv1 は初期状態でアンロック
         const shouldBeUnlocked = lvl.id === 'lvl_0' || lvl.id === 'lvl_1';
         state.roadmapProgress[lvl.id] = { 
           unlocked: shouldBeUnlocked, 
           completed: false 
         };
       } else {
-        // すでに存在する場合でも、初期レベルは常にアンロック状態を保証する
         if (lvl.id === 'lvl_0' || lvl.id === 'lvl_1') {
           state.roadmapProgress[lvl.id].unlocked = true;
         }
@@ -570,6 +824,8 @@ const showView = (viewName) => {
 // Portal Screen
 const renderPortal = () => {
   const portalGrid = document.getElementById('portal-grid');
+  if (!portalGrid) return;
+  
   portalGrid.innerHTML = `
     <!-- 1. 勘定科目マスター (チュートリアル) -->
     <div id="btn-portal-tutorial" class="glass-panel-interactive rounded-2xl p-6 cursor-pointer flex flex-col justify-between h-48 border-t-4 border-cyan-500">
@@ -630,19 +886,16 @@ const renderPortal = () => {
 // Map Screen (魔導ロードマップのすごろく描画)
 const renderMap = () => {
   const mapContainer = document.getElementById('map-scroll-container');
+  if (!mapContainer) return;
   mapContainer.innerHTML = '';
   
   loadRoadmapProgress();
 
-  // 縦スクロールロードマップの構築
   roadmapLevels.forEach((lvl, idx) => {
     const isUnlocked = state.roadmapProgress[lvl.id]?.unlocked || false;
     const isCompleted = state.roadmapProgress[lvl.id]?.completed || false;
     
-    // 蛇行（すごろく風）レイアウト用位置決め
-    // 0: 中央, 1: 少し左, 2: 中央, 3: 少し右... のように交互に振る
     let alignClass = 'justify-center';
-    let offsetClass = '';
     if (idx % 4 === 1) {
       alignClass = 'justify-start pl-8 md:pl-16';
     } else if (idx % 4 === 3) {
@@ -652,7 +905,6 @@ const renderMap = () => {
     const node = document.createElement('div');
     node.className = `flex ${alignClass} w-full relative mb-12 z-10`;
     
-    // ピンのクラス判定
     let pinBg = 'bg-gray-200 dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-400 dark:text-gray-600 cursor-not-allowed';
     let pulseClass = '';
     
@@ -669,8 +921,6 @@ const renderMap = () => {
         <button id="pin-${lvl.id}" class="w-16 h-16 rounded-full border-4 flex flex-col items-center justify-center font-bold text-lg select-none relative ${pinBg} ${pulseClass}">
           <span class="text-[10px] uppercase font-bold tracking-tight opacity-75">Lv</span>
           <span class="text-lg -mt-1 font-heading">${lvl.level}</span>
-          
-          <!-- State icons -->
           ${isCompleted ? '<div class="absolute -top-1 -right-1 w-6 h-6 bg-emerald-600 rounded-full border border-white flex items-center justify-center text-xs">✓</div>' : ''}
           ${!isUnlocked ? '<div class="absolute -top-1 -right-1 w-6 h-6 bg-gray-700 rounded-full border border-gray-600 flex items-center justify-center text-xs"><i data-lucide="lock" class="w-3 h-3 text-gray-400"></i></div>' : ''}
         </button>
@@ -678,7 +928,6 @@ const renderMap = () => {
       </div>
     `;
 
-    // クリックでレベル詳細ダイアログ表示
     if (isUnlocked) {
       node.querySelector(`#pin-${lvl.id}`).addEventListener('click', () => {
         showLevelDialog(lvl);
@@ -694,44 +943,44 @@ const renderMap = () => {
 // レベル詳細ダイアログ表示
 const showLevelDialog = (lvl) => {
   const dialog = document.getElementById('map-level-dialog');
+  if (!dialog) return;
   
   document.getElementById('dialog-level-num').innerText = lvl.level;
   document.getElementById('dialog-title').innerText = lvl.title;
   document.getElementById('dialog-subtitle').innerText = lvl.subtitle;
   document.getElementById('dialog-url-link').href = lvl.url;
   
-  // Tags
   const tagsContainer = document.getElementById('dialog-tags');
-  tagsContainer.innerHTML = '';
-  lvl.tags.forEach(tag => {
-    const span = document.createElement('span');
-    span.className = 'px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 text-[10px] font-semibold';
-    span.innerText = `#${tag}`;
-    tagsContainer.appendChild(span);
-  });
+  if (tagsContainer) {
+    tagsContainer.innerHTML = '';
+    lvl.tags.forEach(tag => {
+      const span = document.createElement('span');
+      span.className = 'px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 text-[10px] font-semibold';
+      span.innerText = `#${tag}`;
+      tagsContainer.appendChild(span);
+    });
+  }
 
-  // クエスト開始ボタンのアクション
   const startBtn = document.getElementById('dialog-start-btn');
-  startBtn.className = 'w-full py-3 rounded-xl text-white font-bold text-sm bg-indigo-600 hover:bg-indigo-500 transition duration-200';
-  startBtn.onclick = () => {
-    state.currentLevelId = lvl.id;
-    state.activeQuestions = [...lvl.questions];
-    state.currentQuestionIndex = 0;
-    state.score = 0;
-    state.hearts = 5;
-    state.firstTimeWrongCount = 0;
-    
-    // ダイアログを閉じてダッシュボードへ
-    dialog.classList.add('hidden');
-    showView('dashboard');
-  };
+  if (startBtn) {
+    startBtn.onclick = () => {
+      state.currentLevelId = lvl.id;
+      state.activeQuestions = [...lvl.questions];
+      state.currentQuestionIndex = 0;
+      state.score = 0;
+      state.hearts = 5;
+      state.firstTimeWrongCount = 0;
+      
+      dialog.classList.add('hidden');
+      showView('dashboard');
+    };
+  }
 
   dialog.classList.remove('hidden');
 };
 
 // Dashboard Screen
 const renderDashboard = () => {
-  // レベル指定がある場合とチュートリアルで分岐
   let title = '';
   let subtitle = '';
   let color = 'indigo';
@@ -746,29 +995,39 @@ const renderDashboard = () => {
     subtitle = lvl.subtitle;
   }
   
-  document.getElementById('dash-course-title').innerText = title;
-  document.getElementById('dash-streak-count').innerText = state.streak;
-  document.getElementById('dash-xp-count').innerText = `${state.xp}/300 XP`;
-  
-  const xpPercent = Math.min((state.xp / 300) * 100, 100);
-  document.getElementById('dash-xp-progress').style.width = `${xpPercent}%`;
-  
+  const titleEl = document.getElementById('dash-course-title');
+  const streakEl = document.getElementById('dash-streak-count');
+  const xpEl = document.getElementById('dash-xp-count');
+  const xpProgressEl = document.getElementById('dash-xp-progress');
   const startBtn = document.getElementById('dash-start-btn');
-  startBtn.style.backgroundColor = getThemeColorHex(color);
-  startBtn.className = `w-full py-4 rounded-2xl text-white font-bold text-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 neon-glow-${color}`;
-  
-  // リーグ描画
   const leagueList = document.getElementById('dash-league-list');
-  leagueList.innerHTML = `
-    <div class="flex items-center justify-between p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/30">
-      <div class="flex items-center gap-3">
-        <span class="font-bold text-indigo-500 dark:text-indigo-400 w-5 text-center">1</span>
-        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-amber-500 flex items-center justify-center font-bold text-xs text-black">👑</div>
-        <span class="font-medium text-gray-900 dark:text-white text-sm">あなた (You)</span>
+  
+  if (titleEl) titleEl.innerText = title;
+  if (streakEl) streakEl.innerText = state.streak;
+  if (xpEl) xpEl.innerText = `${state.xp}/300 XP`;
+  
+  if (xpProgressEl) {
+    const xpPercent = Math.min((state.xp / 300) * 100, 100);
+    xpProgressEl.style.width = `${xpPercent}%`;
+  }
+  
+  if (startBtn) {
+    startBtn.style.backgroundColor = getThemeColorHex(color);
+    startBtn.className = `w-full py-4 rounded-2xl text-white font-bold text-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 neon-glow-${color}`;
+  }
+  
+  if (leagueList) {
+    leagueList.innerHTML = `
+      <div class="flex items-center justify-between p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/30">
+        <div class="flex items-center gap-3">
+          <span class="font-bold text-indigo-500 dark:text-indigo-400 w-5 text-center">1</span>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-amber-500 flex items-center justify-center font-bold text-xs text-black">👑</div>
+          <span class="font-medium text-gray-900 dark:text-white text-sm">あなた (You)</span>
+        </div>
+        <span class="text-xs font-bold text-indigo-600 dark:text-indigo-300 font-mono">${state.xp} XP</span>
       </div>
-      <span class="text-xs font-bold text-indigo-600 dark:text-indigo-300 font-mono">${state.xp} XP</span>
-    </div>
-  `;
+    `;
+  }
   
   safeCreateIcons();
 };
@@ -782,57 +1041,64 @@ const renderQuiz = () => {
     return showView('result');
   }
   
-  // テーマ決定
   const color = state.currentService === 'boki_tutorial' ? 'cyan' : 'indigo';
   const themeHex = getThemeColorHex(color);
   
-  // Set hearts status
   const heartsCountEl = document.getElementById('quiz-hearts-count');
-  if (state.currentService === 'boki_tutorial') {
-    heartsCountEl.innerHTML = '<span class="text-xs">∞</span>';
-  } else {
-    heartsCountEl.innerText = state.hearts;
+  if (heartsCountEl) {
+    if (state.currentService === 'boki_tutorial') {
+      heartsCountEl.innerHTML = '<span class="text-xs">∞</span>';
+    } else {
+      heartsCountEl.innerText = state.hearts;
+    }
   }
   
-  const progressPercent = ((state.currentQuestionIndex) / state.activeQuestions.length) * 100;
-  document.getElementById('quiz-progress-bar').style.width = `${progressPercent}%`;
-  document.getElementById('quiz-progress-bar').style.backgroundColor = themeHex;
+  const progressBarEl = document.getElementById('quiz-progress-bar');
+  if (progressBarEl) {
+    const progressPercent = ((state.currentQuestionIndex) / state.activeQuestions.length) * 100;
+    progressBarEl.style.width = `${progressPercent}%`;
+    progressBarEl.style.backgroundColor = themeHex;
+  }
   
   const questionTextEl = document.getElementById('quiz-question-text');
-  if (question.type === 'tutorial') {
-    questionTextEl.innerHTML = `
-      <div class="text-center space-y-2">
-        <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-heading">この勘定科目が増える方は？</div>
-        <div class="text-4xl md:text-5xl font-black text-indigo-600 dark:text-indigo-400 tracking-tight py-6">${question.text}</div>
-      </div>
-    `;
-  } else {
-    questionTextEl.innerText = question.text;
+  if (questionTextEl) {
+    if (question.type === 'tutorial') {
+      questionTextEl.innerHTML = `
+        <div class="text-center space-y-2">
+          <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-heading">この勘定科目が増える方は？</div>
+          <div class="text-4xl md:text-5xl font-black text-indigo-600 dark:text-indigo-400 tracking-tight py-6">${question.text}</div>
+        </div>
+      `;
+    } else {
+      questionTextEl.innerText = question.text;
+    }
   }
   
   const choicesContainer = document.getElementById('quiz-choices-container');
+  if (!choicesContainer) return;
   choicesContainer.innerHTML = '';
   
   state.selectedAnswer = null;
   state.answered = false;
   
   const actionBar = document.getElementById('quiz-action-bar');
-  actionBar.className = "border-t border-gray-200 dark:border-gray-850 bg-gray-50 dark:bg-gray-950/80 p-4 transition-all duration-300";
-  actionBar.innerHTML = `
-    <div class="max-w-xl mx-auto flex items-center justify-between gap-4">
-      <button id="quiz-skip-btn" class="px-6 py-3 rounded-xl font-bold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
-        スキップ
-      </button>
-      <button id="quiz-check-btn" disabled class="px-8 py-3 rounded-xl font-bold text-gray-400 bg-gray-200 dark:text-gray-500 dark:bg-gray-800 cursor-not-allowed transition flex-1 max-w-[200px]">
-        確認する
-      </button>
-    </div>
-  `;
+  if (actionBar) {
+    actionBar.className = "border-t border-gray-200 dark:border-gray-850 bg-gray-50 dark:bg-gray-950/80 p-4 transition-all duration-300";
+    actionBar.innerHTML = `
+      <div class="max-w-xl mx-auto flex items-center justify-between gap-4">
+        <button id="quiz-skip-btn" class="px-6 py-3 rounded-xl font-bold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
+          スキップ
+        </button>
+        <button id="quiz-check-btn" disabled class="px-8 py-3 rounded-xl font-bold text-gray-400 bg-gray-200 dark:text-gray-500 dark:bg-gray-800 cursor-not-allowed transition flex-1 max-w-[200px]">
+          確認する
+        </button>
+      </div>
+    `;
+  }
   
   const imageContainer = document.getElementById('quiz-image-container');
-  imageContainer.classList.add('hidden');
+  if (imageContainer) imageContainer.classList.add('hidden');
   
-  // 左右2択レイアウト分岐 (チュートリアル、または選択肢が「借方/貸方」の場合も2列にする)
   const isTwoChoice = question.type === 'tutorial' || question.choices.length === 2;
   if (isTwoChoice) {
     choicesContainer.className = "grid grid-cols-2 gap-4 pt-6";
@@ -924,6 +1190,7 @@ const checkAnswer = () => {
   const correctCard = choices[question.correct];
   
   const actionBar = document.getElementById('quiz-action-bar');
+  if (!actionBar) return;
   
   updateSM2(question, isCorrect);
   
@@ -933,8 +1200,10 @@ const checkAnswer = () => {
     playSound('correct');
     triggerConfetti();
     
-    checkedCard.classList.add('correct');
-    checkedCard.style.borderColor = '#22c55e';
+    if (checkedCard) {
+      checkedCard.classList.add('correct');
+      checkedCard.style.borderColor = '#22c55e';
+    }
     
     actionBar.className = "border-t border-emerald-300 dark:border-emerald-800/50 bg-emerald-50 dark:bg-emerald-950/90 p-6 transition-all duration-300";
     actionBar.innerHTML = `
@@ -968,9 +1237,13 @@ const checkAnswer = () => {
     }
     playSound('incorrect');
     
-    checkedCard.classList.add('incorrect', 'animate-shake');
-    checkedCard.style.borderColor = '#ef4444';
-    correctCard.style.borderColor = '#22c55e';
+    if (checkedCard) {
+      checkedCard.classList.add('incorrect', 'animate-shake');
+      checkedCard.style.borderColor = '#ef4444';
+    }
+    if (correctCard) {
+      correctCard.style.borderColor = '#22c55e';
+    }
     
     actionBar.className = "border-t border-red-300 dark:border-red-800/50 bg-red-50 dark:bg-red-950/90 p-6 transition-all duration-300";
     actionBar.innerHTML = `
@@ -1005,13 +1278,16 @@ const checkAnswer = () => {
     safeCreateIcons();
   }
   
-  document.getElementById('quiz-next-btn').addEventListener('click', () => {
-    if (state.hearts <= 0 && state.currentService !== 'boki_tutorial') {
-      showView('dashboard');
-    } else {
-      nextQuestion();
-    }
-  });
+  const nextBtn = document.getElementById('quiz-next-btn');
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (state.hearts <= 0 && state.currentService !== 'boki_tutorial') {
+        showView('dashboard');
+      } else {
+        nextQuestion();
+      }
+    });
+  }
 };
 
 const nextQuestion = () => {
@@ -1034,10 +1310,8 @@ const renderResult = () => {
     const lvl = roadmapLevels.find(l => l.id === state.currentLevelId);
     courseTitle = `Lv${lvl.level} : ${lvl.title}`;
     
-    // 魔導ロードマップの進捗解除
     state.roadmapProgress[lvl.id].completed = true;
     
-    // 次のレベルのアンロック
     const nextLvlIndex = roadmapLevels.findIndex(l => l.id === lvl.id) + 1;
     if (nextLvlIndex < roadmapLevels.length) {
       const nextLvl = roadmapLevels[nextLvlIndex];
@@ -1048,9 +1322,13 @@ const renderResult = () => {
     saveRoadmapProgress();
   }
 
-  document.getElementById('res-service-name').innerText = courseTitle;
-  document.getElementById('res-score').innerText = `+${state.score} pt`;
-  document.getElementById('res-xp-count').innerText = `獲得XP: +${state.score * 1.5} XP`;
+  const nameEl = document.getElementById('res-service-name');
+  const scoreEl = document.getElementById('res-score');
+  const xpEl = document.getElementById('res-xp-count');
+  
+  if (nameEl) nameEl.innerText = courseTitle;
+  if (scoreEl) scoreEl.innerText = `+${state.score} pt`;
+  if (xpEl) xpEl.innerText = `獲得XP: +${state.score * 1.5} XP`;
   
   state.xp += state.score * 1.5;
   if (state.xp >= 300) {
@@ -1059,37 +1337,43 @@ const renderResult = () => {
     state.streak++;
     
     const levelUpModal = document.getElementById('level-up-toast');
-    levelUpModal.classList.remove('hidden');
-    setTimeout(() => {
-      levelUpModal.classList.add('hidden');
-    }, 4000);
+    if (levelUpModal) {
+      levelUpModal.classList.remove('hidden');
+      setTimeout(() => {
+        levelUpModal.classList.add('hidden');
+      }, 4000);
+    }
   }
   
   const reviewBtnContainer = document.getElementById('res-review-container');
-  if (state.firstTimeWrongCount > 0) {
-    reviewBtnContainer.innerHTML = `
-      <div class="p-4 rounded-xl bg-orange-500/10 border border-orange-500/30 text-center">
-        <p class="text-xs text-orange-600 dark:text-orange-300">
-          このセッションで <strong>${state.firstTimeWrongCount} 回</strong> 間違えましたが、しつこく復習してすべて克服しました！
-        </p>
-      </div>
-    `;
-  } else {
-    reviewBtnContainer.innerHTML = `
-      <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-center">
-        <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">パーフェクト！一発ですべて正解しました。素晴らしい記憶力です！</p>
-      </div>
-    `;
+  if (reviewBtnContainer) {
+    if (state.firstTimeWrongCount > 0) {
+      reviewBtnContainer.innerHTML = `
+        <div class="p-4 rounded-xl bg-orange-500/10 border border-orange-500/30 text-center">
+          <p class="text-xs text-orange-600 dark:text-orange-300">
+            このセッションで <strong>${state.firstTimeWrongCount} 回</strong> 間違えましたが、しつこく復習してすべて克服しました！
+          </p>
+        </div>
+      `;
+    } else {
+      reviewBtnContainer.innerHTML = `
+        <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-center">
+          <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">パーフェクト！一発ですべて正解しました。素晴らしい記憶力です！</p>
+        </div>
+      `;
+    }
   }
 
-  // 戻るボタンの遷移先（仕訳ならマップ、チュートリアルならポータル）
-  document.getElementById('res-home-btn').onclick = () => {
-    if (state.currentService === 'boki_shiwake') {
-      showView('map');
-    } else {
-      showView('portal');
-    }
-  };
+  const homeBtn = document.getElementById('res-home-btn');
+  if (homeBtn) {
+    homeBtn.onclick = () => {
+      if (state.currentService === 'boki_shiwake') {
+        showView('map');
+      } else {
+        showView('portal');
+      }
+    };
+  }
 };
 
 // ==========================================
@@ -1177,7 +1461,6 @@ document.addEventListener('DOMContentLoaded', () => {
       themeBtn.addEventListener('click', toggleTheme);
     }
 
-    // Bind Static Navigation
     const headerLogo = document.getElementById('header-logo');
     if (headerLogo) {
       headerLogo.addEventListener('click', () => {
@@ -1203,7 +1486,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // ロードマップ画面の閉じるボタン
     const mapBackBtn = document.getElementById('map-back-btn');
     if (mapBackBtn) {
       mapBackBtn.addEventListener('click', () => {
@@ -1211,7 +1493,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // レベル詳細ダイアログの閉じるボタン
     const dialogCloseBtn = document.getElementById('dialog-close-btn');
     if (dialogCloseBtn) {
       dialogCloseBtn.addEventListener('click', () => {
