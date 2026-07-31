@@ -1818,6 +1818,48 @@ const renderResult = () => {
 };
 
 // ==========================================
+// Utility Helpers & Visual Effects
+// ==========================================
+function getThemeColorHex(theme) {
+  switch (theme) {
+    case 'indigo': return '#6366f1';
+    case 'cyan': return '#06b6d4';
+    default: return '#6366f1';
+  }
+}
+
+function safeCreateIcons() {
+  try {
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  } catch (e) {
+    console.warn('Lucide icons failed to render', e);
+  }
+}
+
+function triggerConfetti() {
+  const container = document.body;
+  const colors = ['#f43f5e', '#3b82f6', '#10b981', '#eab308', '#a855f7'];
+  
+  for (let i = 0; i < 40; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = `${Math.random() * 100}vw`;
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.transform = `scale(${Math.random() * 0.8 + 0.4})`;
+    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+    confetti.style.animationDuration = `${Math.random() * 2 + 1}s`;
+    
+    container.appendChild(confetti);
+    
+    setTimeout(() => {
+      confetti.remove();
+    }, 2500);
+  }
+}
+
+// ==========================================
 // Theme (Light/Dark Mode) Controller
 // ==========================================
 const initTheme = () => {
