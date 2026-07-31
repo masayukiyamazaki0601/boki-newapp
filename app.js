@@ -16,6 +16,7 @@ const state = {
   score: 0,
   firstTimeWrongCount: 0,
   activeQuestions: [],
+  soundEnabled: true,
   
   // 魔導ロードマップの進捗状況 (LocalStorageで永続化)
   roadmapProgress: {
@@ -1860,6 +1861,33 @@ function triggerConfetti() {
 }
 
 // ==========================================
+// Sound Settings Controller
+// ==========================================
+const initSound = () => {
+  const isEnabled = localStorage.getItem('sound_enabled') !== 'false';
+  state.soundEnabled = isEnabled;
+  updateSoundIcon(isEnabled);
+};
+
+const toggleSound = () => {
+  state.soundEnabled = !state.soundEnabled;
+  localStorage.setItem('sound_enabled', state.soundEnabled);
+  updateSoundIcon(state.soundEnabled);
+};
+
+const updateSoundIcon = (isEnabled) => {
+  const icon = document.getElementById('sound-toggle-icon');
+  if (icon) {
+    if (isEnabled) {
+      icon.innerHTML = `<i data-lucide="volume-2" class="text-indigo-500 dark:text-indigo-400 w-5 h-5"></i>`;
+    } else {
+      icon.innerHTML = `<i data-lucide="volume-x" class="text-gray-400 dark:text-gray-650 w-5 h-5"></i>`;
+    }
+    safeCreateIcons();
+  }
+};
+
+// ==========================================
 // Theme (Light/Dark Mode) Controller
 // ==========================================
 const initTheme = () => {
@@ -1891,6 +1919,7 @@ const updateThemeIcon = (isDark) => {
 };
 
 const playSound = (type) => {
+  if (!state.soundEnabled) return;
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = ctx.createOscillator();
@@ -1941,10 +1970,16 @@ const playSound = (type) => {
 document.addEventListener('DOMContentLoaded', () => {
   try {
     initTheme();
+    initSound();
     
     const themeBtn = document.getElementById('theme-toggle-btn');
     if (themeBtn) {
       themeBtn.addEventListener('click', toggleTheme);
+    }
+
+    const soundBtn = document.getElementById('sound-toggle-btn');
+    if (soundBtn) {
+      soundBtn.addEventListener('click', toggleSound);
     }
 
     const headerLogo = document.getElementById('header-logo');
